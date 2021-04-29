@@ -16,6 +16,9 @@ const server = new ApolloServer({
 if (!process.env.MONGO_URI) {
   throw new Error("Mongo uri is required");
 }
+if (!process.env.JWT_KEY) {
+  throw new Error("jwt key is required");
+}
 
 const connectMongo = async () => {
   try {
