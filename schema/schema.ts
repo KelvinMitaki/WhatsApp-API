@@ -54,6 +54,7 @@ const typeDefs = gql`
   }
   type Subscription {
     addNewMessage: Message!
+    addNewGroup: Group!
   }
 `;
 export default typeDefs;
