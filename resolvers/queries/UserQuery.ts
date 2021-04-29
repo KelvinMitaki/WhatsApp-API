@@ -1,3 +1,4 @@
+import { User } from "../../models/User";
 import { Context } from "../../schema/schema";
 
 export type Resolver = {
@@ -5,13 +6,11 @@ export type Resolver = {
     prt: any,
     args: any,
     context: Context
-  ) => { [key: string]: string } | Promise<{ [key: string]: string }>;
+  ) => { [key: string]: any } | Promise<{ [key: string]: any }> | Promise<{ [key: string]: any }[]>;
 };
 
 export const UserQuery: Resolver = {
-  hello(prt, args, ctx) {
-    return {
-      world: "hello world"
-    };
+  fetchUsers(prt, args, ctx) {
+    return User.find().limit(10);
   }
 };

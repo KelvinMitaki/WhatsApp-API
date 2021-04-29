@@ -1,14 +1,23 @@
 import { UserQuery } from "./queries/UserQuery";
 import { UserMutation } from "./mutations/UserMutation";
+import { UserSubscription } from "./subscriptions/UserSubscription";
+import { MessageSubscription } from "./subscriptions/MessageSubscription";
+import { MessageMutation } from "./mutations/MessageMutation";
+import { MessageQuery } from "./queries/MessageQuery";
 
 const resolvers = {
   Query: {
-    ...UserQuery
+    ...UserQuery,
+    ...MessageQuery
   },
   Mutation: {
-    ...UserMutation
+    ...UserMutation,
+    ...MessageMutation
   },
-  Subscription: {}
+  Subscription: {
+    ...UserSubscription,
+    ...MessageSubscription
+  }
 };
 
 export default resolvers;

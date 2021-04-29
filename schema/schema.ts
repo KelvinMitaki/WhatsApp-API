@@ -43,7 +43,7 @@ const typeDefs = gql`
     groups: [String!]!
   }
   type Query {
-    hello: Hello!
+    fetchUsers: [User!]!
   }
   type Mutation {
     registerUser(values: RegisterUserInput!): Token!
