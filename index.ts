@@ -1,10 +1,16 @@
 import { ApolloServer } from "apollo-server";
 import mongoose from "mongoose";
 import resolvers from "./resolvers";
-import typeDefs from "./schema/schema";
+import typeDefs, { Context } from "./schema/schema";
 const server = new ApolloServer({
   resolvers,
-  typeDefs
+  typeDefs,
+  context({ req, res }): Context {
+    return {
+      req,
+      res
+    };
+  }
 });
 
 if (!process.env.MONGO_URI) {

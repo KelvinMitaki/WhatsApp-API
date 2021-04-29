@@ -1,4 +1,6 @@
 import { gql } from "apollo-server";
+import { Request, Response } from "express";
+
 const typeDefs = gql`
   type Hello {
     world: String!
@@ -14,3 +16,7 @@ const typeDefs = gql`
   }
 `;
 export default typeDefs;
+export interface Context {
+  req: Request;
+  res: Response;
+}
