@@ -50,7 +50,7 @@ const UserSchema = new mongoose.Schema(
         ref: "Group"
       }
     ]
-  } as { [key: string]: SchemaTypeOpts<any> | SchemaTypeOpts<any>[] },
+  } as { [key in keyof UserAttrs]: SchemaTypeOpts<any> | SchemaTypeOpts<any>[] },
   { timestamps: true }
 );
 
