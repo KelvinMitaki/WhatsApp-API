@@ -54,6 +54,7 @@ const typeDefs = gql`
     addNewMessage(recipient: String!, message: String!): Message!
     addNewGroup(name: String!): Group!
     deleteMessage(messageID: String!): Message!
+    updateUser(name: String, about: String, profilePhoto: String): User!
   }
   type Subscription {
     addNewMessage: Message!

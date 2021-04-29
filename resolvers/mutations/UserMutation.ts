@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { registerValidation } from "../../middlewares/UserValidation";
+import { auth, registerValidation } from "../../middlewares/UserValidation";
 import { User, UserAttrs } from "../../models/User";
 import { Resolver } from "../queries/UserQuery";
 
@@ -18,5 +18,26 @@ export const UserMutation: Resolver = {
     return {
       token
     };
+  },
+  async updateUser(
+    prt,
+    args: {
+      name?: string;
+      about?: string;
+      profilePhoto?: string;
+    },
+    { req }
+  ) {
+    const id = auth(req);
+    const user = await User.findById(id);
+    if (user) {
+      for (let key in args) {
+        // @ts-ignore
+        user[key as keyof typeof args] = args[key as keyof typeof args];
+      }
+      await user.save();
+      return user;
+    }
+    return {};
   }
 };
