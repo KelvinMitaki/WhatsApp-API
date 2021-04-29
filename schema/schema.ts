@@ -46,6 +46,7 @@ const typeDefs = gql`
 
   type Query {
     fetchUsers: [User!]!
+    fetchGroups: [Group!]!
   }
   type Mutation {
     registerUser(values: RegisterUserInput!): Token!
