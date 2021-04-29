@@ -10,5 +10,15 @@ export const MessageMutation: Resolver = {
     await message.save();
     pubsub.publish(SubscriptionEnum.ADD_NEW_MESSAGE, { addNewMessage: message });
     return message;
+  },
+  async deleteMessage(prt, args: { messageID: string }, { req }) {
+    const id = auth(req);
+    const message = await Message.findById(args.messageID);
+    if (message?.sender.toString() === id) {
+      message.deleted = true;
+      await message.save();
+      return message;
+    }
+    return {};
   }
 };

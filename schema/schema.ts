@@ -53,6 +53,7 @@ const typeDefs = gql`
     registerUser(values: RegisterUserInput!): Token!
     addNewMessage(recipient: String!, message: String!): Message!
     addNewGroup(name: String!): Group!
+    deleteMessage(messageID: String!): Message!
   }
   type Subscription {
     addNewMessage: Message!
