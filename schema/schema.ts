@@ -22,6 +22,7 @@ const typeDefs = gql`
     message: String!
     read: Boolean!
     createdAt: String!
+    deleted: Boolean
   }
   type Group {
     _id: String!
@@ -49,6 +50,7 @@ const typeDefs = gql`
   type Mutation {
     registerUser(values: RegisterUserInput!): Token!
     addNewMessage(recipient: String!, message: String!): Message!
+    addNewGroup(name: String!): Group!
   }
   type Subscription {
     addNewMessage: Message!

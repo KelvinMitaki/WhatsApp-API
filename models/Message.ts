@@ -4,6 +4,7 @@ export interface MessageAttrs {
   recipient: string;
   message: string;
   read: boolean;
+  deleted?: boolean;
 }
 
 export interface MessageDoc extends mongoose.Document {
@@ -11,6 +12,7 @@ export interface MessageDoc extends mongoose.Document {
   recipient: string;
   message: string;
   read: boolean;
+  deleted?: boolean;
 }
 
 interface MessageModel extends mongoose.Model<MessageDoc> {
@@ -36,6 +38,10 @@ const MessageSchema = new mongoose.Schema(
     read: {
       type: Boolean,
       required: true
+    },
+    deleted: {
+      type: Boolean,
+      default: false
     }
   } as { [key in keyof MessageAttrs]: SchemaTypeOpts<any> | SchemaTypeOpts<any>[] },
   { timestamps: true }
