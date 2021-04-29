@@ -1,1 +1,1 @@
-export const Subscription = {};
+export const UserSubscription = {};
