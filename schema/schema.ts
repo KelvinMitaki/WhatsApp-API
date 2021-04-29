@@ -6,31 +6,47 @@ const typeDefs = gql`
     world: String!
   }
   type User {
+    _id: String!
     name: String!
     about: String!
     phoneNumber: Int!
     countryCode: String!
     profilePhoto: String
-    groups: [String]!
+    groups: [String!]!
+    createdAt: String!
   }
   type Message {
+    _id: String!
     sender: String!
     recipient: String!
     message: String!
     read: Boolean!
+    createdAt: String!
   }
   type Group {
+    _id: String!
     name: String!
     description: String
     groupProfilePhoto: String
     admin: String!
+    createdAt: String!
   }
-
+  type Token {
+    token: String!
+  }
+  input RegisterUserInput {
+    name: String!
+    about: String!
+    phoneNumber: Int!
+    countryCode: String!
+    profilePhoto: String
+    groups: [String!]!
+  }
   type Query {
     hello: Hello!
   }
   type Mutation {
-    hello: Hello!
+    registerUser(values: RegisterUserInput!): Token!
   }
   type Subscription {
     hello: Hello!
