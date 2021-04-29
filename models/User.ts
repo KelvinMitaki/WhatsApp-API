@@ -6,7 +6,7 @@ export interface UserAttrs {
   phoneNumber: number;
   countryCode: string;
   profilePhoto?: string;
-  groups: string;
+  groups: string[];
 }
 
 export interface UserDoc extends mongoose.Document {
@@ -15,7 +15,7 @@ export interface UserDoc extends mongoose.Document {
   phoneNumber: number;
   countryCode: string;
   profilePhoto?: string;
-  groups: string;
+  groups: string[];
 }
 
 interface UserModel extends mongoose.Model<UserDoc> {
@@ -25,14 +25,32 @@ interface UserModel extends mongoose.Model<UserDoc> {
 const UserSchema = new mongoose.Schema(
   {
     name: {
+      type: String,
+      required: true
+    },
+    about: {
+      type: String,
+      required: true
+    },
+    phoneNumber: {
+      type: Number,
+      required: true
+    },
+    countryCode: {
+      type: String,
+      required: true
+    },
+    profilePhoto: {
       type: String
     },
-    about: {},
-    phoneNumber: {},
-    countryCode: {},
-    profilePhoto: {},
-    groups: {}
-  } as { [key: string]: SchemaTypeOpts<any> },
+    groups: [
+      {
+        type: mongoose.Types.ObjectId,
+        required: true,
+        ref: "Group"
+      }
+    ]
+  } as { [key: string]: SchemaTypeOpts<any> | SchemaTypeOpts<any>[] },
   { timestamps: true }
 );
 
