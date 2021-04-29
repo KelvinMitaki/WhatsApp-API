@@ -4,7 +4,7 @@ export type Resolver = {
   [key: string]: (prt: any, args: any, context: Context) => { [key: string]: string };
 };
 
-export const Query: Resolver = {
+export const UserQuery: Resolver = {
   hello(prt, args, ctx) {
     return {
       world: "hello world"
