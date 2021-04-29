@@ -51,7 +51,7 @@ const typeDefs = gql`
     addNewMessage(recipient: String!, message: String!): Message!
   }
   type Subscription {
-    hello: Hello!
+    addNewMessage: Message!
   }
 `;
 export default typeDefs;

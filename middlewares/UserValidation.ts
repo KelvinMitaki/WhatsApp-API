@@ -26,8 +26,8 @@ export const auth = (req: Request) => {
   const token = req.headers.authorization || null;
   if (!token) throw new AuthenticationError("Not Authenticated");
   try {
-    const id = jwt.verify(process.env.JWT_KEY!, token.split(" ")[1]);
-    return id;
+    const decoded = jwt.verify(token.split(" ")[1], process.env.JWT_KEY!) as { _id: string };
+    return decoded._id;
   } catch (error) {
     throw new AuthenticationError("Not Authenticated");
   }

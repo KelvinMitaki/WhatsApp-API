@@ -30,7 +30,7 @@ const MessageSchema = new mongoose.Schema(
       ref: "User"
     },
     message: {
-      type: Boolean,
+      type: String,
       required: true
     },
     read: {
