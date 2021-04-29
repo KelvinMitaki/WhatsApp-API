@@ -42,11 +42,13 @@ const typeDefs = gql`
     profilePhoto: String
     groups: [String!]!
   }
+
   type Query {
     fetchUsers: [User!]!
   }
   type Mutation {
     registerUser(values: RegisterUserInput!): Token!
+    addNewMessage(recipient: String!, message: String!): Message!
   }
   type Subscription {
     hello: Hello!

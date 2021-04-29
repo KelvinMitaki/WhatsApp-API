@@ -1,4 +1,6 @@
-import { UserInputError } from "apollo-server-errors";
+import { AuthenticationError, UserInputError } from "apollo-server-errors";
+import jwt from "jsonwebtoken";
+import { Request } from "express";
 import { UserAttrs } from "../models/User";
 
 export const registerValidation = (usr: UserAttrs) => {
@@ -17,5 +19,16 @@ export const registerValidation = (usr: UserAttrs) => {
   }
   if (!phoneNumber) {
     throw new UserInputError("phone number is required");
+  }
+};
+
+export const auth = (req: Request) => {
+  const token = req.headers.authorization || null;
+  if (!token) throw new AuthenticationError("Not Authenticated");
+  try {
+    const id = jwt.verify(process.env.JWT_KEY!, token.split(" ")[1]);
+    return id;
+  } catch (error) {
+    throw new AuthenticationError("Not Authenticated");
   }
 };
