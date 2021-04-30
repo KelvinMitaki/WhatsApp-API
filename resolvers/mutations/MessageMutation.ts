@@ -37,6 +37,6 @@ export const MessageMutation: Resolver = {
       await message.save();
       return message;
     }
-    return {};
+    return null;
   }
 };

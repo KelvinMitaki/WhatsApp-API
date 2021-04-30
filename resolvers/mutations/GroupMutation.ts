@@ -25,5 +25,15 @@ export const GroupMutation: Resolver = {
       return message;
     }
     return {};
+  },
+  async deleteGroupMsg(prt, args: { messageID: string }, { req }) {
+    const id = auth(req);
+    const message = await GroupMsg.findById(args.messageID);
+    if (message?.sender.toString() === id) {
+      message.deleted = true;
+      await message.save();
+      return message;
+    }
+    return null;
   }
 };
