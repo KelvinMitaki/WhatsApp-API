@@ -63,7 +63,7 @@ const typeDefs = gql`
     fetchGroups: [Group!]!
     fetchMessages(recipient: String!): [Message!]!
     fetchChats: [Chat!]!
-    fetchCurrentUser: User
+    fetchCurrentUser: User!
   }
   type Mutation {
     registerUser(values: RegisterUserInput!): Token!

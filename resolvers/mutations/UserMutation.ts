@@ -13,6 +13,8 @@ export const UserMutation: Resolver = {
       await user.save();
       token = jwt.sign({ _id: user._id }, process.env.JWT_KEY!);
     } else {
+      existingUser.name = args.values.name;
+      await existingUser.save();
       token = jwt.sign({ _id: existingUser._id }, process.env.JWT_KEY!);
     }
     return {
