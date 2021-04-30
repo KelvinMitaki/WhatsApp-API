@@ -11,5 +11,15 @@ export const GroupSubscription: Subscription = {
         return true;
       }
     )
+  },
+  addNewGroupMsg: {
+    subscribe: withFilter(
+      () => pubsub.asyncIterator(SubscriptionEnum.ADD_NEW_GROUP_MSG),
+      (payload, variables) => {
+        console.log({ payload });
+        console.log({ variables });
+        return true;
+      }
+    )
   }
 };

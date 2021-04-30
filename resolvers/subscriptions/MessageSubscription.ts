@@ -9,6 +9,7 @@ export type Subscription = {
 export enum SubscriptionEnum {
   ADD_NEW_MESSAGE = "ADD_NEW_MESSAGE",
   ADD_NEW_GROUP = "ADD_NEW_GROUP",
+  ADD_NEW_GROUP_MSG = "ADD_NEW_GROUP_MSG",
   ADD_NEW_CHAT = "ADD_NEW_CHAT"
 }
 

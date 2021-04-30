@@ -79,6 +79,7 @@ const typeDefs = gql`
     addNewMessage: Message!
     addNewGroup: Group!
     addNewChat: Chat!
+    addNewGroupMsg: GroupMsg!
   }
 `;
 export default typeDefs;
