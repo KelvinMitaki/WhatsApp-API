@@ -35,6 +35,7 @@ export const MessageMutation: Resolver = {
     if (message?.sender.toString() === id) {
       message.deleted = true;
       await message.save();
+      pubsub.publish(SubscriptionEnum.DELETE_MESSAGE, { deleteMessage: message });
       return message;
     }
     return null;

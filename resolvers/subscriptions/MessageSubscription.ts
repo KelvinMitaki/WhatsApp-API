@@ -10,7 +10,8 @@ export enum SubscriptionEnum {
   ADD_NEW_MESSAGE = "ADD_NEW_MESSAGE",
   ADD_NEW_GROUP = "ADD_NEW_GROUP",
   ADD_NEW_GROUP_MSG = "ADD_NEW_GROUP_MSG",
-  ADD_NEW_CHAT = "ADD_NEW_CHAT"
+  ADD_NEW_CHAT = "ADD_NEW_CHAT",
+  DELETE_MESSAGE = "DELETE_MESSAGE"
 }
 
 export const MessageSubscription: Subscription = {
@@ -27,6 +28,16 @@ export const MessageSubscription: Subscription = {
   addNewChat: {
     subscribe: withFilter(
       () => pubsub.asyncIterator(SubscriptionEnum.ADD_NEW_CHAT),
+      (payload, variables) => {
+        console.log({ payload });
+        console.log({ variables });
+        return true;
+      }
+    )
+  },
+  deleteMessage: {
+    subscribe: withFilter(
+      () => pubsub.asyncIterator(SubscriptionEnum.DELETE_MESSAGE),
       (payload, variables) => {
         console.log({ payload });
         console.log({ variables });
