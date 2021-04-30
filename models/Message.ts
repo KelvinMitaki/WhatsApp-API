@@ -1,5 +1,6 @@
 import mongoose, { SchemaTypeOpts } from "mongoose";
 export interface MessageAttrs {
+  chatID: string;
   sender: string;
   recipient: string;
   message: string;
@@ -8,6 +9,7 @@ export interface MessageAttrs {
 }
 
 export interface MessageDoc extends mongoose.Document {
+  chatID: string;
   sender: string;
   recipient: string;
   message: string;
@@ -21,6 +23,11 @@ interface MessageModel extends mongoose.Model<MessageDoc> {
 
 const MessageSchema = new mongoose.Schema(
   {
+    chatID: {
+      type: mongoose.Types.ObjectId,
+      required: true,
+      ref: "Chat"
+    },
     sender: {
       type: String,
       required: true,
