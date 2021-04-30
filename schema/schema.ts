@@ -32,6 +32,14 @@ const typeDefs = gql`
     admin: String!
     createdAt: String!
   }
+  type Chat {
+    _id: String!
+    sender: String!
+    recipient: String!
+    message: String!
+    createdAt: String!
+    updatedAt: String!
+  }
   type Token {
     token: String!
   }
@@ -48,6 +56,7 @@ const typeDefs = gql`
     fetchUsers: [User!]!
     fetchGroups: [Group!]!
     fetchMessages(recipient: String!): [Message!]!
+    fetchChats: [Chat!]!
   }
   type Mutation {
     registerUser(values: RegisterUserInput!): Token!
