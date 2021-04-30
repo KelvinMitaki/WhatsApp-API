@@ -71,6 +71,7 @@ const typeDefs = gql`
     registerUser(values: RegisterUserInput!): Token!
     addNewMessage(recipient: String!, message: String!): Message!
     addNewGroup(name: String!): Group!
+    addNewGroupMsg(group: String!, message: String!): GroupMsg!
     deleteMessage(messageID: String!): Message!
     updateUser(name: String, about: String, profilePhoto: String): User!
   }

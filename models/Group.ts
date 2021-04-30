@@ -38,8 +38,8 @@ const GroupSchema = new mongoose.Schema(
       ref: "User"
     },
     message: {
-      type: String,
-      default: null
+      type: mongoose.Types.ObjectId,
+      ref: "GroupMsg"
     }
   } as { [key in keyof GroupAttrs]: SchemaTypeOpts<any> | SchemaTypeOpts<any>[] },
   { timestamps: true }
