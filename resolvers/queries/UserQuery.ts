@@ -19,7 +19,8 @@ export const UserQuery: Resolver = {
     const id = auth(req);
     return User.findById(id);
   },
-  fetchUsers(prt, args, ctx) {
-    return User.find().limit(10);
+  fetchUsers(prt, args, { req }) {
+    const id = auth(req);
+    return User.find({ _id: { $ne: id } }).limit(10);
   }
 };
