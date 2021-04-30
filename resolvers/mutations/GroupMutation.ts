@@ -24,7 +24,7 @@ export const GroupMutation: Resolver = {
       pubsub.publish(SubscriptionEnum.ADD_NEW_GROUP, { addNewGroup: group });
       return message;
     }
-    return {};
+    return null;
   },
   async deleteGroupMsg(prt, args: { messageID: string }, { req }) {
     const id = auth(req);
