@@ -17,10 +17,12 @@ export type Resolver = {
 export const UserQuery: Resolver = {
   fetchCurrentUser(prt, args, { req }) {
     const id = auth(req);
-    return User.findById(id);
+    return User.findById(id).populate("groups");
   },
   fetchUsers(prt, args, { req }) {
     const id = auth(req);
-    return User.find({ _id: { $ne: id } }).limit(10);
+    return User.find({ _id: { $ne: id } })
+      .populate("groups")
+      .limit(10);
   }
 };

@@ -9,7 +9,7 @@ const typeDefs = gql`
     phoneNumber: Int!
     countryCode: String!
     profilePhoto: String
-    groups: [String!]!
+    groups: [Group!]!
     createdAt: String!
   }
   type Message {
@@ -35,6 +35,8 @@ const typeDefs = gql`
     sender: User!
     recipient: User!
     message: String!
+    type: String!
+    unread: Int!
     createdAt: String!
     updatedAt: String!
   }
