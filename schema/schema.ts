@@ -30,6 +30,7 @@ const typeDefs = gql`
     description: String
     groupProfilePhoto: String
     admin: String!
+    message: String
     createdAt: String!
   }
   type Chat {
@@ -39,6 +40,14 @@ const typeDefs = gql`
     message: String!
     createdAt: String!
     updatedAt: String!
+  }
+  type GroupMsg {
+    sender: String!
+    message: String!
+    group: String!
+    read: [String!]!
+    deleted: Boolean
+    received: [String!]!
   }
   type Token {
     token: String!
@@ -68,6 +77,7 @@ const typeDefs = gql`
   type Subscription {
     addNewMessage: Message!
     addNewGroup: Group!
+    addNewChat: Chat!
   }
 `;
 export default typeDefs;

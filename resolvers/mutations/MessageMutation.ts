@@ -23,6 +23,7 @@ export const MessageMutation: Resolver = {
       chat.message = args.message;
       await chat.save();
     }
+    pubsub.publish(SubscriptionEnum.ADD_NEW_CHAT, { addNewChat: chat });
     const message = Message.build({ ...args, sender: id, read: false, chatID: chat._id });
     await message.save();
     pubsub.publish(SubscriptionEnum.ADD_NEW_MESSAGE, { addNewMessage: message });
