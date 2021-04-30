@@ -2,9 +2,6 @@ import { gql } from "apollo-server";
 import { Request, Response } from "express";
 
 const typeDefs = gql`
-  type Hello {
-    world: String!
-  }
   type User {
     _id: String!
     name: String!
@@ -66,6 +63,7 @@ const typeDefs = gql`
     fetchGroups: [Group!]!
     fetchMessages(recipient: String!): [Message!]!
     fetchChats: [Chat!]!
+    fetchCurrentUser: User
   }
   type Mutation {
     registerUser(values: RegisterUserInput!): Token!
