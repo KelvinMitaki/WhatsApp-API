@@ -32,8 +32,8 @@ const typeDefs = gql`
   }
   type Chat {
     _id: String!
-    sender: String!
-    recipient: String!
+    sender: User!
+    recipient: User!
     message: String!
     createdAt: String!
     updatedAt: String!

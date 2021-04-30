@@ -4,12 +4,16 @@ export interface ChatAttrs {
   sender: string;
   recipient: string;
   message: string;
+  unread: number;
+  type?: "message" | "broadcast";
 }
 
 export interface ChatDoc extends mongoose.Document {
   sender: string;
   recipient: string;
   message: string;
+  unread: number;
+  type?: "message" | "broadcast";
 }
 
 interface ChatModel extends mongoose.Model<ChatDoc> {
@@ -30,6 +34,14 @@ const ChatSchema = new mongoose.Schema(
     },
     message: {
       type: String,
+      required: true
+    },
+    type: {
+      type: String,
+      default: "message"
+    },
+    unread: {
+      type: Number,
       required: true
     }
   } as { [key in keyof ChatAttrs]: SchemaTypeOpts<any> | SchemaTypeOpts<any>[] },

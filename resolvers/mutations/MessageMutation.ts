@@ -15,12 +15,14 @@ export const MessageMutation: Resolver = {
       ]
     });
     if (!chat) {
-      chat = Chat.build({ ...args, sender: id });
+      chat = Chat.build({ ...args, sender: id, unread: 0 });
       await chat.save();
     } else {
       chat.sender = id;
       chat.recipient = args.recipient;
       chat.message = args.message;
+      chat.unread =
+        (await Message.countDocuments({ sender: id, recipient: args.recipient, read: false })) + 1;
       await chat.save();
     }
     pubsub.publish(SubscriptionEnum.ADD_NEW_CHAT, { addNewChat: chat });
