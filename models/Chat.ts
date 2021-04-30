@@ -1,6 +1,6 @@
 import mongoose, { SchemaTypeOpts } from "mongoose";
 
-interface ChatAttrs {
+export interface ChatAttrs {
   sender: string;
   recipient: string;
   message: string;
@@ -32,9 +32,11 @@ const ChatSchema = new mongoose.Schema(
       type: String,
       required: true
     }
-  } as { [key in keyof ChatAttrs]: SchemaTypeOpts<any> },
+  } as { [key in keyof ChatAttrs]: SchemaTypeOpts<any> | SchemaTypeOpts<any>[] },
   { timestamps: true }
 );
+
+ChatSchema.statics.build = (attrs: ChatAttrs): ChatDoc => new Chat(attrs);
 
 const Chat = mongoose.model<ChatDoc, ChatModel>("Chat", ChatSchema);
 

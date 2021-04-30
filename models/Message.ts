@@ -6,6 +6,7 @@ export interface MessageAttrs {
   message: string;
   read: boolean;
   deleted?: boolean;
+  received?: boolean;
 }
 
 export interface MessageDoc extends mongoose.Document {
@@ -15,6 +16,7 @@ export interface MessageDoc extends mongoose.Document {
   message: string;
   read: boolean;
   deleted?: boolean;
+  received?: boolean;
 }
 
 interface MessageModel extends mongoose.Model<MessageDoc> {
@@ -47,6 +49,10 @@ const MessageSchema = new mongoose.Schema(
       required: true
     },
     deleted: {
+      type: Boolean,
+      default: false
+    },
+    received: {
       type: Boolean,
       default: false
     }
