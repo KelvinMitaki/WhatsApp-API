@@ -32,6 +32,7 @@ export const GroupMutation: Resolver = {
     if (message?.sender.toString() === id) {
       message.deleted = true;
       await message.save();
+      pubsub.publish(SubscriptionEnum.DELETE_GROUP_MSG, { deleteGroupMsg: message });
       return message;
     }
     return null;

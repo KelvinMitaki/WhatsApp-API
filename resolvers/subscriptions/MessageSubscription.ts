@@ -11,7 +11,8 @@ export enum SubscriptionEnum {
   ADD_NEW_GROUP = "ADD_NEW_GROUP",
   ADD_NEW_GROUP_MSG = "ADD_NEW_GROUP_MSG",
   ADD_NEW_CHAT = "ADD_NEW_CHAT",
-  DELETE_MESSAGE = "DELETE_MESSAGE"
+  DELETE_MESSAGE = "DELETE_MESSAGE",
+  DELETE_GROUP_MSG = "DELETE_GROUP_MSG"
 }
 
 export const MessageSubscription: Subscription = {

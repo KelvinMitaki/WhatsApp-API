@@ -21,5 +21,15 @@ export const GroupSubscription: Subscription = {
         return true;
       }
     )
+  },
+  deleteGroupMsg: {
+    subscribe: withFilter(
+      () => pubsub.asyncIterator(SubscriptionEnum.DELETE_GROUP_MSG),
+      (payload, variables) => {
+        console.log({ payload });
+        console.log({ variables });
+        return true;
+      }
+    )
   }
 };
