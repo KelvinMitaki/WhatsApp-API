@@ -13,7 +13,8 @@ const server = new ApolloServer({
   },
   subscriptions: {
     onConnect: () => console.log("connected to websocket")
-  }
+  },
+  playground: true
 });
 
 if (!process.env.MONGO_URI) {
