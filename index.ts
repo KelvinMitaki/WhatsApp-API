@@ -10,6 +10,9 @@ const server = new ApolloServer({
       req,
       res
     };
+  },
+  subscriptions: {
+    onConnect: () => console.log("connected to websocket")
   }
 });
 
