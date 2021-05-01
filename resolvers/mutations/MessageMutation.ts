@@ -10,7 +10,10 @@ export const MessageMutation: Resolver = {
     let chat: ChatDoc | null;
     chat = await Chat.findOne({
       $or: [
-        { sender: id, recepient: args.recipient },
+        {
+          sender: id,
+          recipient: args.recipient
+        },
         { sender: args.recipient, recepient: id }
       ]
     });

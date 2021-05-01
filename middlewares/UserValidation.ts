@@ -1,4 +1,5 @@
 import { AuthenticationError, UserInputError } from "apollo-server-errors";
+import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import { Request } from "express";
 import { UserAttrs } from "../models/User";
