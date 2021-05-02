@@ -15,6 +15,8 @@ export const MessageQuery: Resolver = {
   },
   async fetchChats(prt, args, { req }) {
     const id = auth(req);
-    return Chat.find({ $or: [{ sender: id }, { recipient: id }] }).populate("sender recipient");
+    return Chat.find({ $or: [{ sender: id }, { recipient: id }] })
+      .sort({ updatedAt: -1 })
+      .populate("sender recipient");
   }
 };
