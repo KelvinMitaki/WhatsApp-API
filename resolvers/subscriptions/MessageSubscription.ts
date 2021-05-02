@@ -33,10 +33,12 @@ export const MessageSubscription: Subscription = {
   addNewChat: {
     subscribe: withFilter(
       () => pubsub.asyncIterator(SubscriptionEnum.ADD_NEW_CHAT),
-      (payload, variables) => {
-        console.log({ payload });
-        console.log({ variables });
-        return true;
+      (payload, variables: { userID: string }) => {
+        const { sender, recipient } = payload.addNewChat;
+        return (
+          variables.userID === sender._id.toString() ||
+          variables.userID === recipient._id.toString()
+        );
       }
     )
   },

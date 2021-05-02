@@ -80,7 +80,7 @@ const typeDefs = gql`
   type Subscription {
     addNewMessage(sender: String!, recipient: String!): Message!
     addNewGroup: Group!
-    addNewChat: Chat!
+    addNewChat(userID: String!): Chat!
     addNewGroupMsg: GroupMsg!
     deleteMessage: Message!
     deleteGroupMsg: GroupMsg!
