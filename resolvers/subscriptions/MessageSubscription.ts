@@ -35,7 +35,7 @@ export const MessageSubscription: Subscription = {
       () => pubsub.asyncIterator(SubscriptionEnum.ADD_NEW_CHAT),
       (payload, variables: { userID: string }) => {
         const { sender, recipient } = payload.addNewChat;
-        return variables.userID === sender._id || variables.userID === recipient._id;
+        return variables.userID === sender || variables.userID === recipient;
       }
     )
   },
