@@ -14,7 +14,7 @@ export const MessageMutation: Resolver = {
           sender: id,
           recipient: args.recipient
         },
-        { sender: args.recipient, recepient: id }
+        { sender: args.recipient, recipient: id }
       ]
     });
     if (!chat) {

@@ -19,10 +19,14 @@ export const MessageSubscription: Subscription = {
   addNewMessage: {
     subscribe: withFilter(
       () => pubsub.asyncIterator(SubscriptionEnum.ADD_NEW_MESSAGE),
-      (payload, variables) => {
-        console.log({ payload });
-        console.log({ variables });
-        return true;
+      (payload, variables: { sender: string; recipient: string }) => {
+        const { sender, recipient } = payload.addNewMessage;
+        return (
+          variables.sender === sender ||
+          variables.recipient === sender ||
+          variables.sender === recipient ||
+          variables.recipient === recipient
+        );
       }
     )
   },

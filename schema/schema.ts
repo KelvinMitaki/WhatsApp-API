@@ -77,7 +77,7 @@ const typeDefs = gql`
     updateUser(name: String, about: String, profilePhoto: String): User!
   }
   type Subscription {
-    addNewMessage: Message!
+    addNewMessage(sender: String!, recipient: String!): Message!
     addNewGroup: Group!
     addNewChat: Chat!
     addNewGroupMsg: GroupMsg!
