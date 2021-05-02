@@ -75,7 +75,7 @@ const typeDefs = gql`
     deleteMessage(messageID: String!): Message
     deleteGroupMsg(messageID: String!): GroupMsg
     updateUser(name: String, about: String, profilePhoto: String): User!
-    updateReadMessages(messageIDs: [String!]!): [Message!]!
+    updateReadMessages(messageIDs: [String!]!, chatID: String!): [Message!]!
   }
   type Subscription {
     addNewMessage(sender: String!, recipient: String!): Message!

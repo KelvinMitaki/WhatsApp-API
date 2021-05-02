@@ -45,9 +45,10 @@ export const MessageMutation: Resolver = {
     }
     return null;
   },
-  async updateReadMessages(prt, args: { messageIDs: string[] }, { req }) {
+  async updateReadMessages(prt, args: { messageIDs: string[]; chatID: string }, { req }) {
     const id = auth(req);
     await Message.updateMany({ recipient: id, _id: { $in: args.messageIDs } }, { read: true });
+    await Chat.findByIdAndUpdate(args.chatID, { unread: 0 });
     return Message.find({ _id: { $in: args.messageIDs } });
   }
 };
