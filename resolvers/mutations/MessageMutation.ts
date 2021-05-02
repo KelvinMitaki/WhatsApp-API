@@ -29,6 +29,7 @@ export const MessageMutation: Resolver = {
       await chat.save();
     }
     chat = chat.populate("sender recipient");
+    console.log(chat);
     // chat = await Chat.findById(chat._id).populate("sender recipient");
     pubsub.publish(SubscriptionEnum.ADD_NEW_CHAT, { addNewChat: chat });
     const message = Message.build({ ...args, sender: id, read: false, chatID: chat!._id });
