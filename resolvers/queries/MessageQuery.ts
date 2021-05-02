@@ -6,7 +6,12 @@ import { Resolver } from "./UserQuery";
 export const MessageQuery: Resolver = {
   async fetchMessages(prt, args: { recipient: string }, { req }) {
     const id = auth(req);
-    return Message.find({ sender: id, recipient: args.recipient }).limit(50);
+    return Message.find({
+      $or: [
+        { sender: id, recipient: args.recipient },
+        { sender: args.recipient, recipient: id }
+      ]
+    }).limit(50);
   },
   async fetchChats(prt, args, { req }) {
     const id = auth(req);
