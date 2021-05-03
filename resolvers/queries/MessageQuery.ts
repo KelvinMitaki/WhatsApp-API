@@ -6,13 +6,19 @@ import { Resolver } from "./UserQuery";
 export const MessageQuery: Resolver = {
   async fetchMessages(prt, args: { recipient: string; offset: number; limit: number }, { req }) {
     const id = auth(req);
+    const messagesCount = await Message.countDocuments({
+      $or: [
+        { sender: id, recipient: args.recipient },
+        { sender: args.recipient, recipient: id }
+      ]
+    });
     return Message.find({
       $or: [
         { sender: id, recipient: args.recipient },
         { sender: args.recipient, recipient: id }
       ]
     })
-      .skip(args.offset)
+      .skip(messagesCount - (args.offset + args.limit))
       .limit(args.limit);
   },
   async fetchChats(prt, args, { req }) {
