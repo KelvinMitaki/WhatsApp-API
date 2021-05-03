@@ -4,14 +4,16 @@ import { Message } from "../../models/Message";
 import { Resolver } from "./UserQuery";
 
 export const MessageQuery: Resolver = {
-  async fetchMessages(prt, args: { recipient: string }, { req }) {
+  async fetchMessages(prt, args: { recipient: string; offset: number }, { req }) {
     const id = auth(req);
     return Message.find({
       $or: [
         { sender: id, recipient: args.recipient },
         { sender: args.recipient, recipient: id }
       ]
-    }).limit(50);
+    })
+      .skip(args.offset)
+      .limit(20);
   },
   async fetchChats(prt, args, { req }) {
     const id = auth(req);

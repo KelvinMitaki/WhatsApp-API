@@ -63,7 +63,7 @@ const typeDefs = gql`
   type Query {
     fetchUsers: [User!]!
     fetchGroups: [Group!]!
-    fetchMessages(recipient: String!): [Message!]!
+    fetchMessages(recipient: String!, offset: Int!): [Message!]!
     fetchChats: [Chat!]!
     fetchCurrentUser: User!
   }
