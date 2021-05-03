@@ -49,7 +49,10 @@ export const MessageMutation: Resolver = {
   async updateReadMessages(prt, args: { messageIDs: string[]; chatID: string }, { req }) {
     const id = auth(req);
     await Message.updateMany({ recipient: id, _id: { $in: args.messageIDs } }, { read: true });
-    await Chat.findByIdAndUpdate(args.chatID, { unread: 0 });
+    const chat = await Chat.findByIdAndUpdate(args.chatID, { unread: 0 }, { new: true })
+      .sort({ updatedAt: -1 })
+      .populate("sender recipient");
+    pubsub.publish(SubscriptionEnum.ADD_NEW_CHAT, { addNewChat: chat });
     return Message.find({ _id: { $in: args.messageIDs } });
   }
 };
