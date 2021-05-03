@@ -25,13 +25,15 @@ export const MessageQuery: Resolver = {
       .sort({ updatedAt: -1 })
       .populate("sender recipient");
   },
-  fetchMessageCount(prt, args: { recipient: string }, { req }) {
+  async fetchMessageCount(prt, args: { recipient: string }, { req }) {
     const id = auth(req);
-    return Message.countDocuments({
-      $or: [
-        { sender: id, recipient: args.recipient },
-        { sender: args.recipient, recipient: id }
-      ]
-    });
+    return {
+      count: await Message.countDocuments({
+        $or: [
+          { sender: id, recipient: args.recipient },
+          { sender: args.recipient, recipient: id }
+        ]
+      })
+    };
   }
 };
