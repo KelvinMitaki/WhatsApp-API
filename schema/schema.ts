@@ -51,6 +51,9 @@ const typeDefs = gql`
   type Token {
     token: String!
   }
+  type Count {
+    count: Int!
+  }
   input RegisterUserInput {
     name: String!
     about: String!
@@ -63,7 +66,8 @@ const typeDefs = gql`
   type Query {
     fetchUsers: [User!]!
     fetchGroups: [Group!]!
-    fetchMessages(recipient: String!, offset: Int!, limit: Int!): [Message!]!
+    fetchMessages(recipient: String!, offset: Int!, limit: Int!, messageCount: Int!): [Message!]!
+    fetchMessageCount(recipient: String!): Count!
     fetchChats: [Chat!]!
     fetchCurrentUser: User!
   }
