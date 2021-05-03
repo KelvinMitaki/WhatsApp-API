@@ -4,7 +4,7 @@ import { Message } from "../../models/Message";
 import { Resolver } from "./UserQuery";
 
 export const MessageQuery: Resolver = {
-  async fetchMessages(prt, args: { recipient: string; offset: number }, { req }) {
+  async fetchMessages(prt, args: { recipient: string; offset: number; limit: number }, { req }) {
     const id = auth(req);
     return Message.find({
       $or: [
@@ -13,7 +13,7 @@ export const MessageQuery: Resolver = {
       ]
     })
       .skip(args.offset)
-      .limit(20);
+      .limit(args.limit);
   },
   async fetchChats(prt, args, { req }) {
     const id = auth(req);
