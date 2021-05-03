@@ -10,13 +10,14 @@ export const MessageQuery: Resolver = {
     { req }
   ) {
     const id = auth(req);
+    const skip = args.messageCount - (args.offset + args.limit);
     return Message.find({
       $or: [
         { sender: id, recipient: args.recipient },
         { sender: args.recipient, recipient: id }
       ]
     })
-      .skip(args.messageCount - (args.offset + args.limit))
+      .skip(skip < 0 ? 0 : skip)
       .limit(args.limit);
   },
   async fetchChats(prt, args, { req }) {
