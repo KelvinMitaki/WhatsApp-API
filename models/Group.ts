@@ -5,6 +5,7 @@ export interface GroupAttrs {
   description?: string;
   groupProfilePhoto?: string;
   admin: string;
+  participants: string[];
   message?: string;
 }
 
@@ -13,6 +14,7 @@ export interface GroupDoc extends mongoose.Document {
   description?: string;
   groupProfilePhoto?: string;
   admin: string;
+  participants: string[];
   message?: string;
 }
 
@@ -40,7 +42,13 @@ const GroupSchema = new mongoose.Schema(
     message: {
       type: mongoose.Types.ObjectId,
       ref: "GroupMsg"
-    }
+    },
+    participants: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "User"
+      }
+    ]
   } as { [key in keyof GroupAttrs]: SchemaTypeOpts<any> | SchemaTypeOpts<any>[] },
   { timestamps: true }
 );

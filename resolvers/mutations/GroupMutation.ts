@@ -5,7 +5,7 @@ import { Resolver } from "../queries/UserQuery";
 import { pubsub, SubscriptionEnum } from "../subscriptions/MessageSubscription";
 
 export const GroupMutation: Resolver = {
-  async addNewGroup(prt, args: { name: string }, { req }) {
+  async addNewGroup(prt, args: { name: string; participants: string[] }, { req }) {
     const id = auth(req);
     const group = Group.build({ ...args, admin: id });
     await group.save();

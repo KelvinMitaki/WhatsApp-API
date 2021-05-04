@@ -74,7 +74,7 @@ const typeDefs = gql`
   type Mutation {
     registerUser(values: RegisterUserInput!): Token!
     addNewMessage(recipient: String!, message: String!): Message!
-    addNewGroup(name: String!): Group!
+    addNewGroup(name: String!, participants: [String!]!): Group!
     addNewGroupMsg(group: String!, message: String!): GroupMsg
     deleteMessage(messageID: String!): Message
     deleteGroupMsg(messageID: String!): GroupMsg
