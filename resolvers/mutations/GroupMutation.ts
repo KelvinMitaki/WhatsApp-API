@@ -2,6 +2,7 @@ import { ValidationError } from "apollo-server-errors";
 import { auth } from "../../middlewares/UserValidation";
 import { Group } from "../../models/Group";
 import { GroupMsg } from "../../models/GroupMsg";
+import { User } from "../../models/User";
 import { Resolver } from "../queries/UserQuery";
 import { pubsub, SubscriptionEnum } from "../subscriptions/MessageSubscription";
 
@@ -17,6 +18,7 @@ export const GroupMutation: Resolver = {
     const group = Group.build({ ...args, admin: id, messageCount: 0 });
     await group.save();
     pubsub.publish(SubscriptionEnum.ADD_NEW_GROUP, { addNewGroup: group });
+    await User.updateMany({ _id: { $in: args.participants } }, { $push: { groups: group } });
     return group;
   },
   async addNewGroupMsg(prt, args: { group: string; message: string }, { req }) {

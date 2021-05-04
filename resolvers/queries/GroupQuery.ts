@@ -7,6 +7,8 @@ export const GroupQuery: Resolver = {
   async fetchGroups(prt, args, { req }) {
     const id = auth(req);
     const user = await User.findById(id).select({ groups: 1 });
-    return Group.find({ _id: { $in: user?.groups } }).limit(10);
+    const groups = await Group.find({ _id: { $in: user?.groups } }).limit(10);
+    groups.forEach(grp => (grp.messageCount = 210));
+    return groups;
   }
 };
