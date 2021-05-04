@@ -30,6 +30,7 @@ const typeDefs = gql`
     message: String
     participants: [String!]!
     createdAt: String!
+    messageCount: Int!
   }
   type Chat {
     _id: String!

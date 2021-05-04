@@ -10,8 +10,11 @@ export const GroupMutation: Resolver = {
     if (args.participants.length > 256) {
       throw new ValidationError("You cannot add more than 256 participants");
     }
+    if (!args.participants.length) {
+      throw new ValidationError("Participants required");
+    }
     const id = auth(req);
-    const group = Group.build({ ...args, admin: id });
+    const group = Group.build({ ...args, admin: id, messageCount: 0 });
     await group.save();
     pubsub.publish(SubscriptionEnum.ADD_NEW_GROUP, { addNewGroup: group });
     return group;

@@ -1,4 +1,5 @@
 import { withFilter } from "graphql-subscriptions";
+import { GroupDoc } from "../../models/Group";
 import { pubsub, Subscription, SubscriptionEnum } from "./MessageSubscription";
 
 export const GroupSubscription: Subscription = {
@@ -6,8 +7,11 @@ export const GroupSubscription: Subscription = {
     subscribe: withFilter(
       () => pubsub.asyncIterator(SubscriptionEnum.ADD_NEW_GROUP),
       (payload, variables: { userID: string }) => {
-        const { participants }: { participants: string[] } = payload.addNewGroup;
-        return participants.some(p => p === variables.userID);
+        const { participants, admin }: GroupDoc = payload.addNewGroup;
+        return (
+          participants.some(p => p.toString() === variables.userID.toString()) ||
+          admin.toString() === variables.userID.toString()
+        );
       }
     )
   },
