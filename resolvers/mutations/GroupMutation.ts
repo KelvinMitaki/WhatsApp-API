@@ -1,3 +1,4 @@
+import { ValidationError } from "apollo-server-errors";
 import { auth } from "../../middlewares/UserValidation";
 import { Group } from "../../models/Group";
 import { GroupMsg } from "../../models/GroupMsg";
@@ -6,6 +7,9 @@ import { pubsub, SubscriptionEnum } from "../subscriptions/MessageSubscription";
 
 export const GroupMutation: Resolver = {
   async addNewGroup(prt, args: { name: string; participants: string[] }, { req }) {
+    if (args.participants.length > 256) {
+      throw new ValidationError("You cannot add more than 256 participants");
+    }
     const id = auth(req);
     const group = Group.build({ ...args, admin: id });
     await group.save();
