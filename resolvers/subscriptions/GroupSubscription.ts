@@ -5,10 +5,9 @@ export const GroupSubscription: Subscription = {
   addNewGroup: {
     subscribe: withFilter(
       () => pubsub.asyncIterator(SubscriptionEnum.ADD_NEW_GROUP),
-      (payload, variables) => {
-        console.log({ payload });
-        console.log({ variables });
-        return true;
+      (payload, variables: { userID: string }) => {
+        const { participants }: { participants: string[] } = payload.addNewGroup;
+        return participants.some(p => p === variables.userID);
       }
     )
   },

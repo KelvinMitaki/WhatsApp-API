@@ -28,6 +28,7 @@ const typeDefs = gql`
     groupProfilePhoto: String
     admin: String!
     message: String
+    participants: [String!]!
     createdAt: String!
   }
   type Chat {
@@ -83,7 +84,7 @@ const typeDefs = gql`
   }
   type Subscription {
     addNewMessage(sender: String!, recipient: String!): Message!
-    addNewGroup: Group!
+    addNewGroup(userID: String!): Group!
     addNewChat(userID: String!): Chat!
     addNewGroupMsg: GroupMsg!
     deleteMessage: Message!
