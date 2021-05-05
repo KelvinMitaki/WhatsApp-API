@@ -21,7 +21,6 @@ export const MessageSubscription: Subscription = {
       () => pubsub.asyncIterator(SubscriptionEnum.ADD_NEW_MESSAGE),
       (payload, variables: { sender: string; recipient: string }) => {
         const { sender, recipient } = payload.addNewMessage;
-        console.log(payload);
         return (
           variables.sender === sender ||
           variables.recipient === sender ||
