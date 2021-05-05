@@ -7,7 +7,9 @@ export const GroupQuery: Resolver = {
   async fetchGroups(prt, args, { req }) {
     const id = auth(req);
     const user = await User.findById(id).select({ groups: 1 });
-    const groups = await Group.find({ _id: { $in: user?.groups } }).limit(10);
+    const groups = await Group.find({ $or: [{ _id: { $in: user?.groups } }, { admin: id }] }).limit(
+      10
+    );
 
     return groups;
   }
