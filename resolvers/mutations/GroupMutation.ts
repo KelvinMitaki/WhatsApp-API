@@ -15,7 +15,7 @@ export const GroupMutation: Resolver = {
       throw new ValidationError("Participants required");
     }
     const id = auth(req);
-    const group = Group.build({ ...args, admin: id });
+    const group = Group.build({ ...args, participants: [id, ...args.participants], admin: id });
     await group.save();
     pubsub.publish(SubscriptionEnum.ADD_NEW_GROUP, { addNewGroup: group });
     await User.updateMany({ _id: { $in: args.participants } }, { $push: { groups: group } });
