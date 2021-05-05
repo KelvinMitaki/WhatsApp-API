@@ -6,7 +6,12 @@ export const GroupQuery: Resolver = {
   async fetchGroups(prt, args, { req }) {
     const id = auth(req);
     const groups = await Group.find({ $or: [{ participants: id }, { admin: id }] })
-      .populate("message")
+      .populate({
+        path: "message",
+        populate: {
+          path: "sender"
+        }
+      })
       .limit(10);
     return groups;
   }

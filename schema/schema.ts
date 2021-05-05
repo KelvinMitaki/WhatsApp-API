@@ -43,7 +43,7 @@ const typeDefs = gql`
   }
   type GroupMsg {
     _id: String!
-    sender: String!
+    sender: User!
     message: String!
     group: String!
     read: [String!]!
