@@ -59,6 +59,8 @@ const GroupMsgSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+GroupMsgSchema.statics.build = (msgAttrs: GroupMsgAttrs): GroupMsgDoc => new GroupMsg(msgAttrs);
+
 const GroupMsg = mongoose.model<GroupMsgDoc, GroupMsgModel>("GroupMsg", GroupMsgSchema);
 
 export { GroupMsg };
