@@ -1,5 +1,7 @@
+import { ForbiddenError } from "apollo-server-errors";
 import { auth } from "../../middlewares/UserValidation";
 import { Group } from "../../models/Group";
+import { GroupMsg } from "../../models/GroupMsg";
 import { Resolver } from "./UserQuery";
 
 export const GroupQuery: Resolver = {
@@ -15,5 +17,16 @@ export const GroupQuery: Resolver = {
       .sort({ createdAt: -1 })
       .limit(10);
     return groups;
+  },
+  async fetchGroupMsgs(prt, args: { groupID: string }, { req }) {
+    const id = auth(req);
+    const isParticipant = await Group.exists({
+      _id: id,
+      $or: [{ participants: id }, { admin: id }]
+    });
+    if (!isParticipant) {
+      throw new ForbiddenError("You are not allowed to read messages from this group");
+    }
+    return GroupMsg.find({ group: args.groupID }).populate("sender");
   }
 };
