@@ -27,7 +27,7 @@ const typeDefs = gql`
     description: String
     groupProfilePhoto: String
     admin: String!
-    message: String
+    message: GroupMsg
     participants: [String!]!
     createdAt: String!
   }
@@ -42,12 +42,14 @@ const typeDefs = gql`
     updatedAt: String!
   }
   type GroupMsg {
+    _id: String!
     sender: String!
     message: String!
     group: String!
     read: [String!]!
     deleted: Boolean
     received: [String!]!
+    createdAt: String!
   }
   type Token {
     token: String!
