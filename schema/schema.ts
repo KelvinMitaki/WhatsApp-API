@@ -30,7 +30,6 @@ const typeDefs = gql`
     message: String
     participants: [String!]!
     createdAt: String!
-    messageCount: Int!
   }
   type Chat {
     _id: String!
@@ -82,6 +81,7 @@ const typeDefs = gql`
     deleteGroupMsg(messageID: String!): GroupMsg
     updateUser(name: String, about: String, profilePhoto: String): User!
     updateReadMessages(messageIDs: [String!]!, chatID: String!): [Message!]!
+    updateGroupMessagesRead(messageIDs: [String!]!): [GroupMsg!]!
   }
   type Subscription {
     addNewMessage(sender: String!, recipient: String!): Message!

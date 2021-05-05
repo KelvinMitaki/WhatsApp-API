@@ -7,7 +7,6 @@ export interface GroupAttrs {
   admin: string;
   participants: string[];
   message?: string;
-  messageCount: number;
 }
 
 export interface GroupDoc extends mongoose.Document {
@@ -17,7 +16,6 @@ export interface GroupDoc extends mongoose.Document {
   admin: string;
   participants: string[];
   message?: string;
-  messageCount: number;
 }
 
 export interface GroupModel extends mongoose.Model<GroupDoc> {
@@ -44,10 +42,6 @@ const GroupSchema = new mongoose.Schema(
     message: {
       type: mongoose.Types.ObjectId,
       ref: "GroupMsg"
-    },
-    messageCount: {
-      type: Number,
-      required: true
     },
     participants: [
       {
