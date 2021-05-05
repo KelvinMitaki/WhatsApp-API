@@ -31,6 +31,15 @@ const typeDefs = gql`
     participants: [String!]!
     createdAt: String!
   }
+  type GroupWithParticipants {
+    _id: String!
+    name: String!
+    description: String
+    groupProfilePhoto: String
+    admin: String!
+    participants: [User!]!
+    createdAt: String!
+  }
   type Chat {
     _id: String!
     sender: User!
@@ -69,7 +78,7 @@ const typeDefs = gql`
   type Query {
     fetchUsers: [User!]!
     fetchGroups: [Group!]!
-    fetchGroup(groupID: String!): Group!
+    fetchGroup(groupID: String!): GroupWithParticipants!
     fetchMessages(recipient: String!, offset: Int!, limit: Int!, messageCount: Int!): [Message!]!
     fetchMessageCount(recipient: String!): Count!
     fetchGroupMsgs(groupID: String!): [GroupMsg!]!
