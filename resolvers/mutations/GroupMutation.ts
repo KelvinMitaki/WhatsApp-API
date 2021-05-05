@@ -25,8 +25,9 @@ export const GroupMutation: Resolver = {
     const id = auth(req);
     const group = await Group.findById(args.group);
     if (group) {
-      const message = GroupMsg.build({ ...args, sender: id, read: [], received: [] });
+      let message = GroupMsg.build({ ...args, sender: id, read: [], received: [] });
       await message.save();
+      message = await message.populate("sender").execPopulate();
       pubsub.publish(SubscriptionEnum.ADD_NEW_GROUP_MSG, { addNewGroupMsg: message });
       group.message = message._id;
       await group.save();
