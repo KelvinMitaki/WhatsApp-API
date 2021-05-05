@@ -21,7 +21,7 @@ export const GroupQuery: Resolver = {
   async fetchGroupMsgs(prt, args: { groupID: string }, { req }) {
     const id = auth(req);
     const isParticipant = await Group.exists({
-      _id: id,
+      _id: args.groupID,
       $or: [{ participants: id }, { admin: id }]
     });
     if (!isParticipant) {
