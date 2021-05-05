@@ -12,6 +12,7 @@ export const GroupQuery: Resolver = {
           path: "sender"
         }
       })
+      .sort({ createdAt: -1 })
       .limit(10);
     return groups;
   }
