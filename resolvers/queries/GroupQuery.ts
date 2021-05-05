@@ -18,6 +18,14 @@ export const GroupQuery: Resolver = {
       .limit(10);
     return groups;
   },
+  async fetchGroup(prt, args: { groupID: string }, { req }) {
+    const id = auth(req);
+    const group = await Group.findOne({ _id: args.groupID, participants: id });
+    if (!group) {
+      throw new ForbiddenError("You are not allowed to view this group's info");
+    }
+    return group;
+  },
   async fetchGroupMsgs(prt, args: { groupID: string }, { req }) {
     const id = auth(req);
     const isParticipant = await Group.exists({
