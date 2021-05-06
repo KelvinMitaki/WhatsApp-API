@@ -100,7 +100,7 @@ const typeDefs = gql`
     addNewMessage(sender: String!, recipient: String!): Message!
     addNewGroup(userID: String!): Group!
     addNewChat(userID: String!): Chat!
-    addNewGroupMsg: GroupMsg!
+    addNewGroupMsg(groupID: String!): GroupMsg!
     deleteMessage: Message!
     deleteGroupMsg: GroupMsg!
   }
