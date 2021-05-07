@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { ValidationError } from "apollo-server-errors";
 import { auth } from "../../middlewares/UserValidation";
 import { Group } from "../../models/Group";
@@ -58,13 +59,20 @@ export const GroupMutation: Resolver = {
       { _id: { $in: args.messageIDs }, sender: { $ne: id } },
       { $push: { read: id } }
     );
-    const group = await Group.findById(args.groupID).populate({
-      path: "message",
-      populate: {
-        path: "sender"
-      }
+    const groupCount = await GroupMsg.aggregate([
+      {
+        $match: {
+          group: mongoose.Types.ObjectId(args.groupID),
+          read: { $nin: [mongoose.Types.ObjectId(id)] },
+          sender: { $ne: mongoose.Types.ObjectId(id) }
+        }
+      },
+      { $group: { _id: { group: "$group" }, messageCount: { $sum: 1 } } },
+      { $project: { group: "$_id.group", _id: 0, messageCount: 1 } }
+    ]);
+    pubsub.publish(SubscriptionEnum.UPDATE_GROUP_READ, {
+      updatedGroupRead: { groupCount: groupCount[0], userID: id }
     });
-    pubsub.publish(SubscriptionEnum.UPDATE_GROUP_READ, { updatedGroupRead: group });
     return GroupMsg.find({ _id: { $in: args.messageIDs } }).populate("sender");
   }
 };

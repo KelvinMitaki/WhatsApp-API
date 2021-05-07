@@ -64,6 +64,10 @@ const typeDefs = gql`
     messageCount: Int!
     group: String!
   }
+  type UpdatedGroupRead {
+    groupCount: UnreadGroupMsg!
+    userID: String!
+  }
   type Token {
     token: String!
   }
@@ -107,7 +111,7 @@ const typeDefs = gql`
     addNewGroup(userID: String!): Group!
     addNewChat(userID: String!): Chat!
     addNewGroupMsg(groupID: String!): GroupMsg!
-    updatedGroupRead(userID: String!): Group!
+    updatedGroupRead(userID: String!): UpdatedGroupRead!
     deleteMessage: Message!
     deleteGroupMsg: GroupMsg!
   }
