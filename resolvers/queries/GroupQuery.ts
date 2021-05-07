@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { ForbiddenError } from "apollo-server-errors";
 import { auth } from "../../middlewares/UserValidation";
 import { Group } from "../../models/Group";
@@ -38,5 +39,15 @@ export const GroupQuery: Resolver = {
       throw new ForbiddenError("You are not allowed to read messages from this group");
     }
     return GroupMsg.find({ group: args.groupID }).populate("sender");
+  },
+  async fetchUnreadGroupMsgs(prt, args, { req }) {
+    const id = auth(req);
+    let groups = await Group.find({ participants: id }).select({ _id: 1 });
+    groups = groups.map(g => g._id);
+    return GroupMsg.aggregate([
+      { $match: { group: { $in: groups }, read: { $nin: [mongoose.Types.ObjectId(id)] } } },
+      { $group: { _id: { group: "$group" }, messageCount: { $sum: 1 } } },
+      { $project: { group: "$_id.group", _id: 0, messageCount: 1 } }
+    ]);
   }
 };

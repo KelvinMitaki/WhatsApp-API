@@ -60,6 +60,10 @@ const typeDefs = gql`
     received: [String!]!
     createdAt: String!
   }
+  type UnreadGroupMsg {
+    messageCount: Int!
+    group: String!
+  }
   type Token {
     token: String!
   }
@@ -82,6 +86,7 @@ const typeDefs = gql`
     fetchMessages(recipient: String!, offset: Int!, limit: Int!, messageCount: Int!): [Message!]!
     fetchMessageCount(recipient: String!): Count!
     fetchGroupMsgs(groupID: String!): [GroupMsg!]!
+    fetchUnreadGroupMsgs: [UnreadGroupMsg!]!
     fetchChats: [Chat!]!
     fetchCurrentUser: User!
   }
