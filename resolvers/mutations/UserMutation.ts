@@ -1,5 +1,8 @@
 import jwt from "jsonwebtoken";
 import { auth, registerValidation } from "../../middlewares/UserValidation";
+import { Chat } from "../../models/Chat";
+import { Group } from "../../models/Group";
+import { GroupMsg } from "../../models/GroupMsg";
 import { User, UserAttrs } from "../../models/User";
 import { Resolver } from "../queries/UserQuery";
 
@@ -41,5 +44,15 @@ export const UserMutation: Resolver = {
       return user;
     }
     return {};
+  },
+  async deleteAll(_, __, { req }) {
+    auth(req);
+    await User.updateMany({}, { groups: [] });
+    await Group.deleteMany({});
+    await GroupMsg.deleteMany({});
+    await Chat.deleteMany({});
+    return {
+      token: "ok"
+    };
   }
 };

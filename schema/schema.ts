@@ -95,6 +95,7 @@ const typeDefs = gql`
     updateUser(name: String, about: String, profilePhoto: String): User!
     updateReadMessages(messageIDs: [String!]!, chatID: String!): [Message!]!
     updateGroupMessagesRead(messageIDs: [String!]!): [GroupMsg!]!
+    deleteAll: Token!
   }
   type Subscription {
     addNewMessage(sender: String!, recipient: String!): Message!
