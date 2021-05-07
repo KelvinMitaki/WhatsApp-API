@@ -52,12 +52,14 @@ export const GroupMutation: Resolver = {
     }
     return null;
   },
-  async updateGroupMessagesRead(prt, args: { messageIDs: string[] }, { req }) {
+  async updateGroupMessagesRead(prt, args: { messageIDs: string[]; groupID: string }, { req }) {
     const id = auth(req);
     await GroupMsg.updateMany(
       { _id: { $in: args.messageIDs }, sender: { $ne: id } },
       { $push: { read: id } }
     );
+    const group = await Group.findById(args.groupID).populate("message");
+    pubsub.publish(SubscriptionEnum.UPDATE_GROUP_READ, { updatedGroupRead: group });
     return GroupMsg.find({ _id: { $in: args.messageIDs } });
   }
 };
