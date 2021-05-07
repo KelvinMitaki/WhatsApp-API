@@ -11,7 +11,7 @@ export const GroupSubscription: Subscription = {
         const { participants, admin }: GroupDoc = payload.addNewGroup;
         console.log(payload);
         const broadcast =
-          // participants.some(p => p.toString() === variables.userID.toString()) ||
+          participants.some(p => p.toString() === variables.userID.toString()) ||
           admin.toString() === variables.userID.toString();
         console.log({ broadcast });
         return broadcast;

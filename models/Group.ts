@@ -29,10 +29,12 @@ const GroupSchema = new mongoose.Schema(
       required: true
     },
     description: {
-      type: String
+      type: String,
+      default: null
     },
     groupProfilePhoto: {
-      type: String
+      type: String,
+      default: null
     },
     admin: {
       type: mongoose.Types.ObjectId,
