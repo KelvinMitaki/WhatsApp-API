@@ -32,10 +32,10 @@ export const GroupMutation: Resolver = {
       await message.save();
       message = await message.populate("sender").execPopulate();
       pubsub.publish(SubscriptionEnum.ADD_NEW_GROUP_MSG, { addNewGroupMsg: message });
-      await pubsub.publish(SubscriptionEnum.ADD_NEW_GROUP, {
-        addNewGroup: group
-      });
       group.message = message._id;
+      pubsub.publish(SubscriptionEnum.ADD_NEW_GROUP, {
+        addNewGroup: { ...group.toObject(), message: null }
+      });
       await group.save();
       return message;
     }
