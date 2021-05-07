@@ -58,7 +58,12 @@ export const GroupMutation: Resolver = {
       { _id: { $in: args.messageIDs }, sender: { $ne: id } },
       { $push: { read: id } }
     );
-    const group = await Group.findById(args.groupID).populate("message");
+    const group = await Group.findById(args.groupID).populate({
+      path: "message",
+      populate: {
+        path: "sender"
+      }
+    });
     pubsub.publish(SubscriptionEnum.UPDATE_GROUP_READ, { updatedGroupRead: group });
     return GroupMsg.find({ _id: { $in: args.messageIDs } }).populate("sender");
   }
