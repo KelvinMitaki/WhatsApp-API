@@ -34,7 +34,7 @@ export const GroupMutation: Resolver = {
       pubsub.publish(SubscriptionEnum.ADD_NEW_GROUP_MSG, { addNewGroupMsg: message });
       group.message = message._id;
       pubsub.publish(SubscriptionEnum.ADD_NEW_GROUP, {
-        addNewGroup: { ...group.toObject(), message: null }
+        addNewGroup: { ...group.toObject(), message: args.message }
       });
       await group.save();
       return message;
