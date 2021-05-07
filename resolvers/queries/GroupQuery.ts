@@ -29,7 +29,11 @@ export const GroupQuery: Resolver = {
     }
     return group;
   },
-  async fetchGroupMsgs(prt, args: { groupID: string }, { req }) {
+  async fetchGroupMsgs(
+    prt,
+    args: { groupID: string; offset: number; limit: number; messageCount: number },
+    { req }
+  ) {
     const id = auth(req);
     const isParticipant = await Group.exists({
       _id: args.groupID,
@@ -38,7 +42,11 @@ export const GroupQuery: Resolver = {
     if (!isParticipant) {
       throw new ForbiddenError("You are not allowed to read messages from this group");
     }
-    return GroupMsg.find({ group: args.groupID }).populate("sender");
+    const skip = args.messageCount - (args.offset + args.limit);
+    return GroupMsg.find({ group: args.groupID })
+      .populate("sender")
+      .skip(skip < 0 ? 0 : skip)
+      .limit(args.limit);
   },
   async fetchUnreadGroupMsgs(prt, args, { req }) {
     const id = auth(req);

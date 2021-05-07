@@ -90,7 +90,7 @@ const typeDefs = gql`
     fetchMessages(recipient: String!, offset: Int!, limit: Int!, messageCount: Int!): [Message!]!
     fetchMessageCount(recipient: String!): Count!
     fetchGroupMessageCount(groupID: String!): Count!
-    fetchGroupMsgs(groupID: String!): [GroupMsg!]!
+    fetchGroupMsgs(groupID: String!, offset: Int!, limit: Int!, messageCount: Int!): [GroupMsg!]!
     fetchUnreadGroupMsgs: [UnreadGroupMsg!]!
     fetchChats: [Chat!]!
     fetchCurrentUser: User!
