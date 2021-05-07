@@ -8,11 +8,12 @@ export const GroupSubscription: Subscription = {
     subscribe: withFilter(
       () => pubsub.asyncIterator(SubscriptionEnum.ADD_NEW_GROUP),
       (payload, variables: { userID: string }) => {
-        console.log(payload);
         const { participants, admin }: GroupDoc = payload.addNewGroup;
         const broadcast =
           participants.some(p => p.toString() === variables.userID.toString()) ||
           admin.toString() === variables.userID.toString();
+        console.log(payload);
+        console.log({ broadcast });
         return broadcast;
       }
     )
