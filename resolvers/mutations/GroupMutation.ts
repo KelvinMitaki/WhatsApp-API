@@ -59,20 +59,6 @@ export const GroupMutation: Resolver = {
       { _id: { $in: args.messageIDs }, sender: { $ne: id } },
       { $push: { read: id } }
     );
-    const groupCount = await GroupMsg.aggregate([
-      {
-        $match: {
-          group: mongoose.Types.ObjectId(args.groupID),
-          read: { $nin: [mongoose.Types.ObjectId(id)] },
-          sender: { $ne: mongoose.Types.ObjectId(id) }
-        }
-      },
-      { $group: { _id: { group: "$group" }, messageCount: { $sum: 1 } } },
-      { $project: { group: "$_id.group", _id: 0, messageCount: 1 } }
-    ]);
-    pubsub.publish(SubscriptionEnum.UPDATE_GROUP_READ, {
-      updatedGroupRead: { groupCount: groupCount[0], userID: id }
-    });
     return GroupMsg.find({ _id: { $in: args.messageIDs } }).populate("sender");
   }
 };

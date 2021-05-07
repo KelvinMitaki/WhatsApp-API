@@ -34,16 +34,5 @@ export const GroupSubscription: Subscription = {
         return true;
       }
     )
-  },
-  updatedGroupRead: {
-    subscribe: withFilter(
-      () => pubsub.asyncIterator(SubscriptionEnum.UPDATE_GROUP_READ),
-      (payload, variables: { userID: string }) => {
-        console.log({ payload });
-        console.log({ variables });
-        const userID = payload.updatedGroupRead.userID;
-        return userID.toString() === variables.userID.toString();
-      }
-    )
   }
 };
