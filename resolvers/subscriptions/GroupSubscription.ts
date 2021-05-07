@@ -9,12 +9,10 @@ export const GroupSubscription: Subscription = {
       () => pubsub.asyncIterator(SubscriptionEnum.ADD_NEW_GROUP),
       (payload, variables: { userID: string }) => {
         const { participants, admin }: GroupDoc = payload.addNewGroup;
-        console.log(payload);
-        const broadcast =
+        return (
           participants.some(p => p.toString() === variables.userID.toString()) ||
-          admin.toString() === variables.userID.toString();
-        console.log({ broadcast });
-        return broadcast;
+          admin.toString() === variables.userID.toString()
+        );
       }
     )
   },
