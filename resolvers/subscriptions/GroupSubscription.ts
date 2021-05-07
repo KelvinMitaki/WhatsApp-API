@@ -34,5 +34,14 @@ export const GroupSubscription: Subscription = {
         return true;
       }
     )
+  },
+  updatedGroupRead: {
+    subscribe: withFilter(
+      () => pubsub.asyncIterator(SubscriptionEnum.UPDATE_GROUP_READ),
+      (payload, variables: { userID: string }) => {
+        const { admin }: GroupDoc = payload.updatedGroupRead;
+        return admin.toString() === variables.userID.toString();
+      }
+    )
   }
 };

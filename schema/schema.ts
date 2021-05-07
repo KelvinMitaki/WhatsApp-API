@@ -99,7 +99,7 @@ const typeDefs = gql`
     deleteGroupMsg(messageID: String!): GroupMsg
     updateUser(name: String, about: String, profilePhoto: String): User!
     updateReadMessages(messageIDs: [String!]!, chatID: String!): [Message!]!
-    updateGroupMessagesRead(messageIDs: [String!]!): [GroupMsg!]!
+    updateGroupMessagesRead(messageIDs: [String!]!, groupID: String!): [GroupMsg!]!
     deleteAll: Token!
   }
   type Subscription {
@@ -107,6 +107,7 @@ const typeDefs = gql`
     addNewGroup(userID: String!): Group!
     addNewChat(userID: String!): Chat!
     addNewGroupMsg(groupID: String!): GroupMsg!
+    updatedGroupRead(userID: String!): Group!
     deleteMessage: Message!
     deleteGroupMsg: GroupMsg!
   }
