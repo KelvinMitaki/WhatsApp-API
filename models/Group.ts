@@ -43,8 +43,7 @@ const GroupSchema = new mongoose.Schema(
     },
     message: {
       type: mongoose.Types.ObjectId,
-      ref: "GroupMsg",
-      default: ""
+      ref: "GroupMsg"
     },
     participants: [
       {

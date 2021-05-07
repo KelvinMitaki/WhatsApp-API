@@ -17,7 +17,9 @@ export const GroupMutation: Resolver = {
     const id = auth(req);
     const group = Group.build({ ...args, participants: [id, ...args.participants], admin: id });
     await group.save();
-    pubsub.publish(SubscriptionEnum.ADD_NEW_GROUP, { addNewGroup: group });
+    pubsub.publish(SubscriptionEnum.ADD_NEW_GROUP, {
+      addNewGroup: { ...group.toObject(), message: "" }
+    });
     await User.updateMany(
       { _id: { $in: [id, ...args.participants] } },
       { $push: { groups: group } }
