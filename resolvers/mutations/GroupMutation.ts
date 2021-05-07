@@ -60,6 +60,6 @@ export const GroupMutation: Resolver = {
     );
     const group = await Group.findById(args.groupID).populate("message");
     pubsub.publish(SubscriptionEnum.UPDATE_GROUP_READ, { updatedGroupRead: group });
-    return GroupMsg.find({ _id: { $in: args.messageIDs } });
+    return GroupMsg.find({ _id: { $in: args.messageIDs } }).populate("sender");
   }
 };
