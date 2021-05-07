@@ -45,7 +45,13 @@ export const GroupQuery: Resolver = {
     let groups = await Group.find({ participants: id }).select({ _id: 1 });
     groups = groups.map(g => g._id);
     return GroupMsg.aggregate([
-      { $match: { group: { $in: groups }, read: { $nin: [mongoose.Types.ObjectId(id)] } } },
+      {
+        $match: {
+          group: { $in: groups },
+          read: { $nin: [mongoose.Types.ObjectId(id)] },
+          sender: { $ne: mongoose.Types.ObjectId(id) }
+        }
+      },
       { $group: { _id: { group: "$group" }, messageCount: { $sum: 1 } } },
       { $project: { group: "$_id.group", _id: 0, messageCount: 1 } }
     ]);
