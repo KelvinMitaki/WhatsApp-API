@@ -50,7 +50,6 @@ export const UserMutation: Resolver = {
     await User.updateMany({}, { groups: [] });
     await Group.deleteMany({});
     await GroupMsg.deleteMany({});
-    await Chat.deleteMany({});
     return {
       token: "ok"
     };
