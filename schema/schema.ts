@@ -11,6 +11,8 @@ const typeDefs = gql`
     profilePhoto: String
     groups: [Group!]!
     createdAt: String!
+    typing: Boolean!
+    lastSeen: String!
   }
   type Message {
     _id: String!
