@@ -7,6 +7,8 @@ export interface UserAttrs {
   countryCode: string;
   profilePhoto?: string;
   groups: string[];
+  lastSeen: Date;
+  typing: boolean;
 }
 
 export interface UserDoc extends mongoose.Document {
@@ -16,6 +18,8 @@ export interface UserDoc extends mongoose.Document {
   countryCode: string;
   profilePhoto?: string;
   groups: string[];
+  lastSeen?: string;
+  typing?: boolean;
 }
 
 interface UserModel extends mongoose.Model<UserDoc> {
@@ -43,6 +47,14 @@ const UserSchema = new mongoose.Schema(
     },
     profilePhoto: {
       type: String
+    },
+    lastSeen: {
+      type: String,
+      default: new Date().toString()
+    },
+    typing: {
+      type: Boolean,
+      default: false
     },
     groups: [
       {
