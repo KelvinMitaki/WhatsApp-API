@@ -46,10 +46,16 @@ export const UserMutation: Resolver = {
     }
     return {};
   },
-  updateUserTyping(prt, args: { typing: boolean }, { req }) {
-    const id = auth(req);
-    const data = { userID: id, typing: args.typing };
+  updateUserTyping(prt, args: { typing: boolean; chatID: string }, { req }) {
+    auth(req);
+    const data = { chatID: args.chatID, typing: args.typing };
     pubsub.publish(SubscriptionEnum.UPDATE_USER_TYPING, { updateUserTyping: data });
+    return data;
+  },
+  updateUserOnline(prt, args: { online: boolean }, { req }) {
+    const id = auth(req);
+    const data = { userID: id, online: args.online };
+    pubsub.publish(SubscriptionEnum.UPDATE_USER_TYPING, { updateUserOnline: data });
     return data;
   },
   async deleteAll(_, __, { req }) {
