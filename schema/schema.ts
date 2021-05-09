@@ -12,6 +12,7 @@ const typeDefs = gql`
     groups: [Group!]!
     createdAt: String!
     typing: Boolean!
+    online: Boolean!
     lastSeen: String!
   }
   type Message {
