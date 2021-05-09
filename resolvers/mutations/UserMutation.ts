@@ -5,6 +5,7 @@ import { Group } from "../../models/Group";
 import { GroupMsg } from "../../models/GroupMsg";
 import { User, UserAttrs } from "../../models/User";
 import { Resolver } from "../queries/UserQuery";
+import { pubsub, SubscriptionEnum } from "../subscriptions/MessageSubscription";
 
 export const UserMutation: Resolver = {
   async registerUser(prt, args: { values: UserAttrs }, ctx) {
@@ -44,6 +45,12 @@ export const UserMutation: Resolver = {
       return user;
     }
     return {};
+  },
+  updateUserTyping(prt, args: { typing: boolean }, { req }) {
+    const id = auth(req);
+    const data = { userID: id, typing: args.typing };
+    pubsub.publish(SubscriptionEnum.UPDATE_USER_TYPING, { updateUserTyping: data });
+    return data;
   },
   async deleteAll(_, __, { req }) {
     auth(req);
