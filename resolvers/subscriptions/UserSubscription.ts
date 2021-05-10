@@ -12,6 +12,6 @@ export const UserSubscription: Subscription = {
     )
   },
   updateUserOnline: {
-    subscribe: () => pubsub.asyncIterator(SubscriptionEnum.UPDATE_USER_TYPING)
+    subscribe: () => pubsub.asyncIterator(SubscriptionEnum.UPDATE_USER_ONLINE)
   }
 };

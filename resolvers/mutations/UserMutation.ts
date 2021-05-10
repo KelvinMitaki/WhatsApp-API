@@ -52,10 +52,11 @@ export const UserMutation: Resolver = {
     pubsub.publish(SubscriptionEnum.UPDATE_USER_TYPING, { updateUserTyping: data });
     return data;
   },
-  updateUserOnline(prt, args: { online: boolean }, { req }) {
+  async updateUserOnline(prt, args: { online: boolean }, { req }) {
     const id = auth(req);
     const data = { userID: id, online: args.online };
-    pubsub.publish(SubscriptionEnum.UPDATE_USER_TYPING, { updateUserOnline: data });
+    pubsub.publish(SubscriptionEnum.UPDATE_USER_ONLINE, { updateUserOnline: data });
+    await User.updateOne({ _id: id }, { online: args.online, lastSeen: new Date().toString() });
     return data;
   },
   async deleteAll(_, __, { req }) {
