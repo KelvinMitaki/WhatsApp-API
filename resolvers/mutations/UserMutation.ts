@@ -13,12 +13,18 @@ export const UserMutation: Resolver = {
     const existingUser = await User.findOne({ phoneNumber: args.values.phoneNumber });
     let token;
     if (!existingUser) {
-      const user = User.build(args.values);
+      const user = User.build({ ...args.values, online: true, lastSeen: new Date().toString() });
       await user.save();
+      const data = { userID: user._id, online: user.online };
+      pubsub.publish(SubscriptionEnum.UPDATE_USER_ONLINE, { updateUserOnline: data });
       token = jwt.sign({ _id: user._id }, process.env.JWT_KEY!);
     } else {
       existingUser.name = args.values.name;
+      existingUser.online = true;
+      existingUser.lastSeen = new Date().toString();
       await existingUser.save();
+      const data = { userID: existingUser._id, online: existingUser.online };
+      pubsub.publish(SubscriptionEnum.UPDATE_USER_ONLINE, { updateUserOnline: data });
       token = jwt.sign({ _id: existingUser._id }, process.env.JWT_KEY!);
     }
     return {
