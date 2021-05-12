@@ -76,6 +76,11 @@ const typeDefs = gql`
     typingUserID: String!
     typing: Boolean!
   }
+  type GroupTyping {
+    groupID: String!
+    typingUserID: String!
+    typing: Boolean!
+  }
   type UserOnline {
     userID: String!
     online: Boolean!
@@ -119,6 +124,7 @@ const typeDefs = gql`
     updateGroupMessagesRead(messageIDs: [String!]!, groupID: String!): [GroupMsg!]!
     deleteAll: Token!
     updateUserTyping(typing: Boolean!, chatID: String!, typingUserID: String!): UserTyping!
+    updateGroupTyping(typing: Boolean!, groupID: String!, typingUserID: String!): GroupTyping!
     updateUserOnline(online: Boolean!): UserOnline!
   }
   type Subscription {
@@ -129,6 +135,7 @@ const typeDefs = gql`
     deleteMessage: Message!
     deleteGroupMsg: GroupMsg!
     updateUserTyping(chatID: String!): UserTyping!
+    updateGroupTyping(groupID: String!): GroupTyping!
     updateUserOnline: UserOnline!
   }
 `;
