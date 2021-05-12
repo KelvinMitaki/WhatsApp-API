@@ -54,9 +54,8 @@ export const UserMutation: Resolver = {
   },
   updateUserTyping(prt, args: { typing: boolean; chatID: string; typingUserID: string }, { req }) {
     auth(req);
-    const data = args;
-    pubsub.publish(SubscriptionEnum.UPDATE_USER_TYPING, { updateUserTyping: data });
-    return data;
+    pubsub.publish(SubscriptionEnum.UPDATE_USER_TYPING, { updateUserTyping: args });
+    return args;
   },
   async updateUserOnline(prt, args: { online: boolean }, { req }) {
     const id = auth(req);

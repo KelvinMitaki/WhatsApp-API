@@ -73,6 +73,7 @@ const typeDefs = gql`
   }
   type UserTyping {
     chatID: String!
+    typingUserID: String!
     typing: Boolean!
   }
   type UserOnline {
