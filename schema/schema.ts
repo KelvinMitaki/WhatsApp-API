@@ -117,7 +117,7 @@ const typeDefs = gql`
     updateReadMessages(messageIDs: [String!]!, chatID: String!): [Message!]!
     updateGroupMessagesRead(messageIDs: [String!]!, groupID: String!): [GroupMsg!]!
     deleteAll: Token!
-    updateUserTyping(typing: Boolean!, chatID: String!): UserTyping!
+    updateUserTyping(typing: Boolean!, chatID: String!, typingUserID: String!): UserTyping!
     updateUserOnline(online: Boolean!): UserOnline!
   }
   type Subscription {

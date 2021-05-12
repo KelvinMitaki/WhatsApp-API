@@ -52,9 +52,9 @@ export const UserMutation: Resolver = {
     }
     return {};
   },
-  updateUserTyping(prt, args: { typing: boolean; chatID: string }, { req }) {
+  updateUserTyping(prt, args: { typing: boolean; chatID: string; typingUserID: string }, { req }) {
     auth(req);
-    const data = { chatID: args.chatID, typing: args.typing };
+    const data = args;
     pubsub.publish(SubscriptionEnum.UPDATE_USER_TYPING, { updateUserTyping: data });
     return data;
   },
