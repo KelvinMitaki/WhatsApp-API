@@ -60,5 +60,14 @@ export const GroupMutation: Resolver = {
       { $push: { read: id } }
     );
     return GroupMsg.find({ _id: { $in: args.messageIDs } }).populate("sender");
+  },
+  updateGroupTyping(
+    prt,
+    args: { typing: boolean; groupID: string; typingUserID: string },
+    { req }
+  ) {
+    auth(req);
+    pubsub.publish(SubscriptionEnum.UPDATE_GROUP_TYPING, { updateGroupTyping: args });
+    return args;
   }
 };

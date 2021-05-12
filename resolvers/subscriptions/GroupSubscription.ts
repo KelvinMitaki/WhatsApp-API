@@ -34,5 +34,14 @@ export const GroupSubscription: Subscription = {
         return true;
       }
     )
+  },
+  updateGroupTyping: {
+    subscribe: withFilter(
+      () => pubsub.asyncIterator(SubscriptionEnum.UPDATE_GROUP_TYPING),
+      (payload, variables: { groupID: string }) => {
+        const { groupID } = payload.updateGroupTyping;
+        return groupID.toString() === variables.groupID.toString();
+      }
+    )
   }
 };
