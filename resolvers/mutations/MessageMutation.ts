@@ -1,6 +1,8 @@
+import { ValidationError } from "apollo-server-errors";
 import { auth } from "../../middlewares/UserValidation";
 import { Chat, ChatDoc } from "../../models/Chat";
 import { Message } from "../../models/Message";
+import { StarredMsg } from "../../models/StarredMsg";
 import { Resolver } from "../queries/UserQuery";
 import { pubsub, SubscriptionEnum } from "../subscriptions/MessageSubscription";
 
@@ -54,5 +56,19 @@ export const MessageMutation: Resolver = {
       .populate("sender recipient");
     pubsub.publish(SubscriptionEnum.ADD_NEW_CHAT, { addNewChat: chat });
     return Message.find({ _id: { $in: args.messageIDs } });
+  },
+  async addStarredMessage(prt, args: { message?: string; groupMsg?: string }, { req }) {
+    const id = auth(req);
+    if (!args.message && !args.groupMsg) {
+      throw new ValidationError("msg or groupMsg required");
+    }
+    const { message, groupMsg } = args;
+    const starredMsg = StarredMsg.build({
+      starredBy: id,
+      ...(message && { message }),
+      ...(groupMsg && { groupMsg })
+    });
+    await starredMsg.save();
+    return starredMsg;
   }
 };
