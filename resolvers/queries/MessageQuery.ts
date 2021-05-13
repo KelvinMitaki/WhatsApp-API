@@ -1,6 +1,7 @@
 import { auth } from "../../middlewares/UserValidation";
 import { Chat } from "../../models/Chat";
 import { Message } from "../../models/Message";
+import { StarredMsg } from "../../models/StarredMsg";
 import { Resolver } from "./UserQuery";
 
 export const MessageQuery: Resolver = {
@@ -36,5 +37,9 @@ export const MessageQuery: Resolver = {
         ]
       })
     };
+  },
+  fetchStarredMsgs(prt, args, { req }) {
+    const id = auth(req);
+    return StarredMsg.find({ starredBy: id }).populate("starredBy message groupMsg");
   }
 };
