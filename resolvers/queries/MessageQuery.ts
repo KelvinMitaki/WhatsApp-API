@@ -40,6 +40,19 @@ export const MessageQuery: Resolver = {
   },
   fetchStarredMsgs(prt, args, { req }) {
     const id = auth(req);
-    return StarredMsg.find({ starredBy: id }).populate("starredBy message groupMsg");
+    return StarredMsg.find({ starredBy: id })
+      .populate({ path: "starredBy" })
+      .populate({
+        path: "message",
+        populate: {
+          path: "sender recipient"
+        }
+      })
+      .populate({
+        path: "groupMsg",
+        populate: {
+          path: "sender"
+        }
+      });
   }
 };
