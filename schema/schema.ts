@@ -63,6 +63,11 @@ const typeDefs = gql`
     received: [String!]!
     createdAt: String!
   }
+  type StarredMsg {
+    starredBy: User!
+    message: Message
+    groupMsg: GroupMsg
+  }
   type UnreadGroupMsg {
     messageCount: Int!
     group: String!
@@ -111,6 +116,7 @@ const typeDefs = gql`
     fetchUnreadGroupMsgs: [UnreadGroupMsg!]!
     fetchChats: [Chat!]!
     fetchCurrentUser: User!
+    fetchStarredMsgs: [StarredMsg!]!
   }
   type Mutation {
     registerUser(values: RegisterUserInput!): Token!
@@ -126,6 +132,7 @@ const typeDefs = gql`
     updateUserTyping(typing: Boolean!, chatID: String!, typingUserID: String!): UserTyping!
     updateGroupTyping(typing: Boolean!, groupID: String!, typingUserID: String!): GroupTyping!
     updateUserOnline(online: Boolean!): UserOnline!
+    addStarredMessage(message: String, groupMsg: String): StarredMsg!
   }
   type Subscription {
     addNewMessage(sender: String!, recipient: String!): Message!
