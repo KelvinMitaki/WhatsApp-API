@@ -1,5 +1,6 @@
 import { auth } from "../../middlewares/UserValidation";
 import { Chat } from "../../models/Chat";
+import { GroupMsg } from "../../models/GroupMsg";
 import { Message } from "../../models/Message";
 import { Resolver } from "./UserQuery";
 
@@ -37,7 +38,11 @@ export const MessageQuery: Resolver = {
       })
     };
   },
-  fetchStarredMsgs(prt, args, { req }) {
-    return {};
+  async fetchStarredMsgs(prt, args, { req }) {
+    const starredBy = auth(req);
+    return {
+      messages: await Message.find({ starredBy }),
+      groupMsgs: await GroupMsg.find({ starredBy })
+    };
   }
 };
