@@ -69,5 +69,15 @@ export const GroupMutation: Resolver = {
     auth(req);
     pubsub.publish(SubscriptionEnum.UPDATE_GROUP_TYPING, { updateGroupTyping: args });
     return args;
+  },
+  async addStarredGroupMessages(prt, args: { groupMsgIDs: string[] }, { req }) {
+    const starredBy = auth(req);
+    await GroupMsg.updateMany({ _id: { $in: args.groupMsgIDs } }, { $addToSet: { starredBy } });
+    return GroupMsg.find({ _id: { $in: args.groupMsgIDs } }).populate("sender");
+  },
+  async removeStarredGroupMessages(prt, args: { groupMsgIDs: string[] }, { req }) {
+    const starredBy = auth(req);
+    await GroupMsg.updateMany({ _id: { $in: args.groupMsgIDs } }, { $pull: { starredBy } });
+    return GroupMsg.find({ _id: { $in: args.groupMsgIDs } }).populate("sender");
   }
 };

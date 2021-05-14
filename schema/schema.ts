@@ -155,7 +155,9 @@ const typeDefs = gql`
     updateGroupTyping(typing: Boolean!, groupID: String!, typingUserID: String!): GroupTyping!
     updateUserOnline(online: Boolean!): UserOnline!
     addStarredMessages(messageIDs: [String!]!): [Message!]!
+    removeStarredMessages(messageIDs: [String!]!): [Message!]!
     addStarredGroupMessages(groupMsgIDs: [String!]!): [GroupMsg!]!
+    removeStarredGroupMessages(groupMsgIDs: [String!]!): [GroupMsg!]!
   }
   type Subscription {
     addNewMessage(sender: String!, recipient: String!): Message!
