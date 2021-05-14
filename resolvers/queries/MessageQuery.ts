@@ -1,7 +1,6 @@
 import { auth } from "../../middlewares/UserValidation";
 import { Chat } from "../../models/Chat";
 import { Message } from "../../models/Message";
-import { StarredMsg } from "../../models/StarredMsg";
 import { Resolver } from "./UserQuery";
 
 export const MessageQuery: Resolver = {
@@ -39,20 +38,6 @@ export const MessageQuery: Resolver = {
     };
   },
   fetchStarredMsgs(prt, args, { req }) {
-    const id = auth(req);
-    return StarredMsg.find({ starredBy: id })
-      .populate({ path: "starredBy" })
-      .populate({
-        path: "message",
-        populate: {
-          path: "sender recipient"
-        }
-      })
-      .populate({
-        path: "groupMsg",
-        populate: {
-          path: "sender"
-        }
-      });
+    return {};
   }
 };
