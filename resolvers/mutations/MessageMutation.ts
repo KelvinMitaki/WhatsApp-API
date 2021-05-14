@@ -57,12 +57,14 @@ export const MessageMutation: Resolver = {
     pubsub.publish(SubscriptionEnum.ADD_NEW_CHAT, { addNewChat: chat });
     return Message.find({ _id: { $in: args.messageIDs } });
   },
-  addStarredMessage(prt, args: { messageID: string }, { req }) {
+  async addStarredMessages(prt, args: { messageIDs: string[] }, { req }) {
     const starredBy = auth(req);
-    return Message.findByIdAndUpdate(args.messageID, { $push: { starredBy } }, { new: true });
+    await Message.updateMany({ _id: { $in: args.messageIDs } }, { $push: { starredBy } });
+    return Message.find({ _id: { $in: args.messageIDs } });
   },
-  addStarredGroupMessage(prt, args: { groupMsgID: string }, { req }) {
+  async addStarredGroupMessages(prt, args: { groupMsgIDs: string[] }, { req }) {
     const starredBy = auth(req);
-    return GroupMsg.findByIdAndUpdate(args.groupMsgID, { $push: { starredBy } }, { new: true });
+    await GroupMsg.updateMany({ _id: { $in: args.groupMsgIDs } }, { $push: { starredBy } });
+    return GroupMsg.find({ _id: { $in: args.groupMsgIDs } }).populate("sender");
   }
 };
