@@ -59,12 +59,12 @@ export const MessageMutation: Resolver = {
   },
   async addStarredMessages(prt, args: { messageIDs: string[] }, { req }) {
     const starredBy = auth(req);
-    await Message.updateMany({ _id: { $in: args.messageIDs } }, { $push: { starredBy } });
+    await Message.updateMany({ _id: { $in: args.messageIDs } }, { $addToSet: { starredBy } });
     return Message.find({ _id: { $in: args.messageIDs } });
   },
   async addStarredGroupMessages(prt, args: { groupMsgIDs: string[] }, { req }) {
     const starredBy = auth(req);
-    await GroupMsg.updateMany({ _id: { $in: args.groupMsgIDs } }, { $push: { starredBy } });
+    await GroupMsg.updateMany({ _id: { $in: args.groupMsgIDs } }, { $addToSet: { starredBy } });
     return GroupMsg.find({ _id: { $in: args.groupMsgIDs } }).populate("sender");
   }
 };
