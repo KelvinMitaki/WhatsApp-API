@@ -7,6 +7,7 @@ export interface MessageAttrs {
   read: boolean;
   deleted?: boolean;
   received?: boolean;
+  starredBy?: string[];
 }
 
 export interface MessageDoc extends mongoose.Document {
@@ -17,6 +18,7 @@ export interface MessageDoc extends mongoose.Document {
   read: boolean;
   deleted?: boolean;
   received?: boolean;
+  starredBy?: string[];
 }
 
 interface MessageModel extends mongoose.Model<MessageDoc> {
@@ -55,7 +57,13 @@ const MessageSchema = new mongoose.Schema(
     received: {
       type: Boolean,
       default: false
-    }
+    },
+    starredBy: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "User"
+      }
+    ]
   } as { [key in keyof MessageAttrs]: SchemaTypeOpts<any> | SchemaTypeOpts<any>[] },
   { timestamps: true }
 );

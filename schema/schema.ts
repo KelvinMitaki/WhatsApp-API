@@ -76,7 +76,7 @@ const typeDefs = gql`
   }
   type StarredMsgs {
     messages: [Message!]!
-    groupMsgs: [groupMsgs!]!
+    groupMsgs: [GroupMsg!]!
   }
   type UnreadGroupMsg {
     messageCount: Int!
@@ -142,7 +142,8 @@ const typeDefs = gql`
     updateUserTyping(typing: Boolean!, chatID: String!, typingUserID: String!): UserTyping!
     updateGroupTyping(typing: Boolean!, groupID: String!, typingUserID: String!): GroupTyping!
     updateUserOnline(online: Boolean!): UserOnline!
-    addStarredMessage(message: String, groupMsg: String): Message!
+    addStarredMessage(messageID: String!): Message!
+    addStarredGroupMessage(groupMsgID: String!): GroupMsg!
   }
   type Subscription {
     addNewMessage(sender: String!, recipient: String!): Message!

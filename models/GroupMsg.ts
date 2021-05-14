@@ -6,6 +6,7 @@ export interface GroupMsgAttrs {
   read: string[];
   deleted?: boolean;
   received: string[];
+  starredBy?: string[];
 }
 
 export interface GroupMsgDoc extends mongoose.Document {
@@ -15,6 +16,7 @@ export interface GroupMsgDoc extends mongoose.Document {
   read: string[];
   deleted?: boolean;
   received: string[];
+  starredBy?: string[];
 }
 
 interface GroupMsgModel extends mongoose.Model<GroupMsgDoc> {
@@ -53,6 +55,12 @@ const GroupMsgSchema = new mongoose.Schema(
         type: mongoose.Types.ObjectId,
         ref: "User",
         required: true
+      }
+    ],
+    starredBy: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "User"
       }
     ]
   } as { [key in keyof GroupMsgAttrs]: SchemaTypeOpts<any> | SchemaTypeOpts<any>[] },
