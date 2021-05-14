@@ -41,8 +41,8 @@ export const MessageQuery: Resolver = {
   async fetchStarredMsgs(prt, args, { req }) {
     const starredBy = auth(req);
     return {
-      messages: await Message.find({ starredBy }),
-      groupMsgs: await GroupMsg.find({ starredBy })
+      messages: await Message.find({ starredBy }).populate("sender recipient"),
+      groupMsgs: await GroupMsg.find({ starredBy }).populate("group")
     };
   }
 };

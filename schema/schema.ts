@@ -21,18 +21,10 @@ const typeDefs = gql`
     recipient: String!
     message: String!
     read: Boolean!
-    createdAt: String!
-    deleted: Boolean
+    deleted: Boolean!
+    received: Boolean!
     starredBy: [String!]
-  }
-  type MessagePopulated {
-    _id: String!
-    sender: User!
-    recipient: User!
-    message: String!
-    read: Boolean!
     createdAt: String!
-    deleted: Boolean
   }
   type Group {
     _id: String!
@@ -74,9 +66,29 @@ const typeDefs = gql`
     createdAt: String!
     starredBy: [String!]
   }
+  type MessagePopulated {
+    _id: String!
+    sender: User!
+    recipient: User!
+    message: String!
+    read: Boolean!
+    deleted: Boolean!
+    received: Boolean!
+    createdAt: String!
+  }
+  type GroupMsgPopulated {
+    _id: String!
+    sender: User!
+    message: String!
+    group: Group!
+    read: [String!]!
+    deleted: Boolean
+    received: [String!]!
+    createdAt: String!
+  }
   type StarredMsgs {
-    messages: [Message!]!
-    groupMsgs: [GroupMsg!]!
+    messages: [MessagePopulated!]!
+    groupMsgs: [GroupMsgPopulated!]!
   }
   type UnreadGroupMsg {
     messageCount: Int!
