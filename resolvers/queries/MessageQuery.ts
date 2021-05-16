@@ -42,7 +42,7 @@ export const MessageQuery: Resolver = {
     const starredBy = auth(req);
     return {
       messages: await Message.find({ starredBy }).populate("sender recipient"),
-      groupMsgs: await GroupMsg.find({ starredBy }).populate("group")
+      groupMsgs: await GroupMsg.find({ starredBy }).populate("sender group")
     };
   }
 };
