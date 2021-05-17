@@ -33,12 +33,12 @@ const MessageSchema = new mongoose.Schema(
       ref: "Chat"
     },
     sender: {
-      type: String,
+      type: mongoose.Types.ObjectId,
       required: true,
       ref: "User"
     },
     recipient: {
-      type: String,
+      type: mongoose.Types.ObjectId,
       required: true,
       ref: "User"
     },
