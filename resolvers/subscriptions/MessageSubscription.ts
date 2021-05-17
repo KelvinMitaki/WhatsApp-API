@@ -24,12 +24,12 @@ export const MessageSubscription: Subscription = {
     subscribe: withFilter(
       () => pubsub.asyncIterator(SubscriptionEnum.ADD_NEW_MESSAGE),
       (payload, variables: { sender: string; recipient: string }) => {
-        const { sender, recipient } = payload.addNewMessage;
+        const { sender, recipient }: { [key: string]: string } = payload.addNewMessage;
         return (
-          variables.sender === sender ||
-          variables.recipient === sender ||
-          variables.sender === recipient ||
-          variables.recipient === recipient
+          variables.sender.toString() === sender.toString() ||
+          variables.recipient.toString() === sender.toString() ||
+          variables.sender.toString() === recipient.toString() ||
+          variables.recipient.toString() === recipient.toString()
         );
       }
     )
