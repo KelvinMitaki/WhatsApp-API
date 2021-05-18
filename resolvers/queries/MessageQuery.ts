@@ -47,37 +47,20 @@ export const MessageQuery: Resolver = {
       groupMsgs: await GroupMsg.find({ starredBy }).populate("sender group")
     };
   },
-  async test(prt, args, { req }) {
+  fetchMessagesCount(prt, args: { chatIDs: string[] }, { req }) {
     const id = auth(req);
-    const userIds = (await User.find()).filter(us => us._id.toString() !== id).map(us => us._id);
-    const data = await Message.aggregate([
+    const ids = args.chatIDs.map(id => mongoose.Types.ObjectId(id));
+    return Message.aggregate([
       {
         $match: {
           $or: [
-            {
-              sender: mongoose.Types.ObjectId(id),
-              recipient: { $in: userIds.map(id => mongoose.Types.ObjectId(id)) }
-            },
-            {
-              recipient: mongoose.Types.ObjectId(id),
-              sender: { $in: userIds.map(id => mongoose.Types.ObjectId(id)) }
-            }
+            { sender: mongoose.Types.ObjectId(id), recipient: { $in: ids } },
+            { recipient: mongoose.Types.ObjectId(id), sender: { $in: ids } }
           ]
         }
       },
-      {
-        $group: {
-          _id: {
-            chatID: "$chatID"
-          },
-          count: { $sum: 1 }
-        }
-      }
+      { $group: { _id: { chatID: "$chatID" }, messageCount: { $sum: 1 } } },
+      { $project: { chatID: "$_id.chatID", _id: 0, messageCount: 1 } }
     ]);
-
-    console.log(JSON.stringify(data, null, 4));
-    return {
-      token: "ok"
-    };
   }
 };
