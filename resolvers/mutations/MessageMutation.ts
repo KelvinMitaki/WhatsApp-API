@@ -55,7 +55,9 @@ export const MessageMutation: Resolver = {
       .sort({ updatedAt: -1 })
       .populate("sender recipient");
     pubsub.publish(SubscriptionEnum.ADD_NEW_CHAT, { addNewChat: chat });
-    return Message.find({ _id: { $in: args.messageIDs } });
+    const messages = await Message.find({ _id: { $in: args.messageIDs } });
+    pubsub.publish(SubscriptionEnum.UPDATE_READ_MESSAGES, { updateReadMessages: messages });
+    return messages;
   },
   async addStarredMessages(prt, args: { messageIDs: string[] }, { req }) {
     const starredBy = auth(req);
