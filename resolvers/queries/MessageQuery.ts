@@ -47,9 +47,9 @@ export const MessageQuery: Resolver = {
       groupMsgs: await GroupMsg.find({ starredBy }).populate("sender group")
     };
   },
-  fetchMessagesCount(prt, args: { chatIDs: string[] }, { req }) {
+  fetchMessagesCount(prt, args: { userIds: string[] }, { req }) {
     const id = auth(req);
-    const ids = args.chatIDs.map(id => mongoose.Types.ObjectId(id));
+    const ids = args.userIds.map(id => mongoose.Types.ObjectId(id));
     return Message.aggregate([
       {
         $match: {
