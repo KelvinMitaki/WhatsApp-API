@@ -118,6 +118,10 @@ const typeDefs = gql`
   type Count {
     count: Int!
   }
+  type MessageCount {
+    messageCount: Int!
+    chatID: String!
+  }
   input RegisterUserInput {
     name: String!
     about: String!
@@ -139,8 +143,7 @@ const typeDefs = gql`
     fetchChats: [Chat!]!
     fetchCurrentUser: User!
     fetchStarredMsgs: StarredMsgs!
-    test: Token
-    fetchMessagesCount(chatIDs: [String!]!): Count!
+    fetchMessagesCount(chatIDs: [String!]!): [MessageCount!]!
   }
   type Mutation {
     registerUser(values: RegisterUserInput!): Token!
