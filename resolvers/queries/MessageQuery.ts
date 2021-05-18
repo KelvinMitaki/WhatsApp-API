@@ -1,7 +1,9 @@
+import mongoose from "mongoose";
 import { auth } from "../../middlewares/UserValidation";
 import { Chat } from "../../models/Chat";
 import { GroupMsg } from "../../models/GroupMsg";
 import { Message } from "../../models/Message";
+import { User } from "../../models/User";
 import { Resolver } from "./UserQuery";
 
 export const MessageQuery: Resolver = {
@@ -43,6 +45,39 @@ export const MessageQuery: Resolver = {
     return {
       messages: await Message.find({ starredBy }).populate("sender recipient"),
       groupMsgs: await GroupMsg.find({ starredBy }).populate("sender group")
+    };
+  },
+  async test(prt, args, { req }) {
+    const id = auth(req);
+    const userIds = (await User.find()).filter(us => us._id.toString() !== id).map(us => us._id);
+    const data = await Message.aggregate([
+      {
+        $match: {
+          $or: [
+            {
+              sender: mongoose.Types.ObjectId(id),
+              recipient: { $in: userIds.map(id => mongoose.Types.ObjectId(id)) }
+            },
+            {
+              recipient: mongoose.Types.ObjectId(id),
+              sender: { $in: userIds.map(id => mongoose.Types.ObjectId(id)) }
+            }
+          ]
+        }
+      },
+      {
+        $group: {
+          _id: {
+            chatID: "$chatID"
+          },
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+
+    console.log(JSON.stringify(data, null, 4));
+    return {
+      token: "ok"
     };
   }
 };

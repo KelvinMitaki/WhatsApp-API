@@ -139,6 +139,7 @@ const typeDefs = gql`
     fetchChats: [Chat!]!
     fetchCurrentUser: User!
     fetchStarredMsgs: StarredMsgs!
+    test: Token
   }
   type Mutation {
     registerUser(values: RegisterUserInput!): Token!
