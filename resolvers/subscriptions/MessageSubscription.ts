@@ -1,4 +1,5 @@
 import { PubSub, withFilter } from "graphql-subscriptions";
+import { MessageDoc } from "../../models/Message";
 
 export const pubsub = new PubSub();
 export type Subscription = {
@@ -16,7 +17,8 @@ export enum SubscriptionEnum {
   UPDATE_GROUP_READ = "UPDATE_GROUP_READ",
   UPDATE_USER_TYPING = "UPDATE_USER_TYPING",
   UPDATE_GROUP_TYPING = "UPDATE_GROUP_TYPING",
-  UPDATE_USER_ONLINE = "UPDATE_USER_ONLINE"
+  UPDATE_USER_ONLINE = "UPDATE_USER_ONLINE",
+  UPDATE_READ_MESSAGES = "UPDATE_READ_MESSAGES"
 }
 
 export const MessageSubscription: Subscription = {
@@ -42,6 +44,22 @@ export const MessageSubscription: Subscription = {
         return (
           variables.userID === sender._id.toString() ||
           variables.userID === recipient._id.toString()
+        );
+      }
+    )
+  },
+  updateReadMessages: {
+    subscribe: withFilter(
+      () => pubsub.asyncIterator(SubscriptionEnum.UPDATE_READ_MESSAGES),
+      (payload, variables: { sender: string; recipient: string }) => {
+        const { sender, recipient } = variables;
+        const messages: MessageDoc[] = payload.updateReadMessages;
+        return messages.every(
+          m =>
+            (m.sender.toString() === sender.toString() &&
+              m.recipient.toString() === recipient.toString()) ||
+            (m.sender.toString() === recipient.toString() &&
+              m.recipient.toString() === sender.toString())
         );
       }
     )

@@ -169,6 +169,7 @@ const typeDefs = gql`
     updateUserTyping(chatID: String!): UserTyping!
     updateGroupTyping(groupID: String!): GroupTyping!
     updateUserOnline: UserOnline!
+    updateReadMessages(sender: String!, recipient: String!): [Message!]!
   }
 `;
 export default typeDefs;
