@@ -69,5 +69,16 @@ export const GroupQuery: Resolver = {
     return {
       count: await GroupMsg.countDocuments({ group: args.groupID })
     };
+  },
+  async fetchGroupMessagesCount(_, __, { req }) {
+    const id = auth(req);
+    const groups = await Group.find({ participants: id }).select("_id");
+    return GroupMsg.aggregate([
+      { $match: { group: { $in: groups.map(g => g._id) } } },
+      {
+        $group: { _id: { groupID: "$group" }, messageCount: { $sum: 1 } }
+      },
+      { $project: { groupID: "$_id.groupID", _id: 0, messageCount: 1 } }
+    ]);
   }
 };

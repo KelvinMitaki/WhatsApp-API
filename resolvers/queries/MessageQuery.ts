@@ -29,17 +29,6 @@ export const MessageQuery: Resolver = {
       .sort({ updatedAt: -1 })
       .populate("sender recipient");
   },
-  async fetchMessageCount(prt, args: { recipient: string }, { req }) {
-    const id = auth(req);
-    return {
-      count: await Message.countDocuments({
-        $or: [
-          { sender: id, recipient: args.recipient },
-          { sender: args.recipient, recipient: id }
-        ]
-      })
-    };
-  },
   async fetchStarredMsgs(prt, args, { req }) {
     const starredBy = auth(req);
     return {

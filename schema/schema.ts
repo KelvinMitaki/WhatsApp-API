@@ -122,6 +122,10 @@ const typeDefs = gql`
     messageCount: Int!
     chatID: String!
   }
+  type GroupMessageCount {
+    messageCount: Int!
+    groupID: String!
+  }
   input RegisterUserInput {
     name: String!
     about: String!
@@ -136,7 +140,6 @@ const typeDefs = gql`
     fetchGroups: [Group!]!
     fetchGroup(groupID: String!): GroupWithParticipants!
     fetchMessages(recipient: String!, offset: Int!, limit: Int!, messageCount: Int!): [Message!]!
-    fetchMessageCount(recipient: String!): Count!
     fetchGroupMessageCount(groupID: String!): Count!
     fetchGroupMsgs(groupID: String!, offset: Int!, limit: Int!, messageCount: Int!): [GroupMsg!]!
     fetchUnreadGroupMsgs: [UnreadGroupMsg!]!
@@ -144,6 +147,7 @@ const typeDefs = gql`
     fetchCurrentUser: User!
     fetchStarredMsgs: StarredMsgs!
     fetchMessagesCount(userIDs: [String!]!): [MessageCount!]!
+    fetchGroupMessagesCount: [GroupMessageCount!]!
   }
   type Mutation {
     registerUser(values: RegisterUserInput!): Token!
