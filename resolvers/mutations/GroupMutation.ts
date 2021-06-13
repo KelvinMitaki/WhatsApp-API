@@ -6,6 +6,7 @@ import { GroupMsg } from '../../models/GroupMsg'
 import { User } from '../../models/User'
 import { pubsub, SubscriptionEnum } from '../subscriptions/MessageSubscription'
 import {
+  Group as GroupInterface,
   GroupMsg as GroupMsgInterface,
   MutationResolvers,
   ResolverTypeWrapper,
@@ -28,7 +29,7 @@ export const GroupMutation: MutationResolvers = {
       { $push: { groups: group } }
     )
 
-    return group
+    return group as unknown as Promise<ResolverTypeWrapper<GroupInterface>>
   },
   async addNewGroupMsg(prt, args, { req }): Promise<GroupMsgInterface | null> {
     const id = auth(req)
@@ -38,7 +39,7 @@ export const GroupMutation: MutationResolvers = {
       await message.save()
       message = await message.populate('sender').execPopulate()
       pubsub.publish(SubscriptionEnum.ADD_NEW_GROUP_MSG, { addNewGroupMsg: message })
-      group.message = message._id as unknown as GroupMsgInterface
+      group.message = message._id
       pubsub.publish(SubscriptionEnum.ADD_NEW_GROUP, {
         addNewGroup: { ...group.toObject(), message },
       })

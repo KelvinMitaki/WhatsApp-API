@@ -16,10 +16,7 @@ export interface GroupDoc extends mongoose.Document {
   groupProfilePhoto?: string
   admin: string
   participants: string[]
-  message?: GroupMsg
-  createdAt: string
-  updatedAt: string
-  _id: string
+  message?: string
 }
 
 export interface GroupModel extends mongoose.Model<GroupDoc> {

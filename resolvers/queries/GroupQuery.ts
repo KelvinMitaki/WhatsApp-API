@@ -4,6 +4,7 @@ import { auth } from '../../middlewares/UserValidation'
 import { Group, GroupDoc } from '../../models/Group'
 import { GroupMsg } from '../../models/GroupMsg'
 import {
+  Group as GroupInterface,
   GroupMsg as GroupMsgInterface,
   GroupWithParticipants,
   QueryResolvers,
@@ -22,7 +23,7 @@ export const GroupQuery: QueryResolvers = {
       })
       .sort({ updatedAt: -1 })
       .limit(10)
-    return groups
+    return groups as unknown as ResolverTypeWrapper<GroupInterface>[]
   },
   async fetchGroup(prt, args, { req }) {
     const id = auth(req)
