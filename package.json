@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "env-cmd -f config/keys.env nodemon index.ts",
-    "start": "ts-node index.ts"
+    "start": "ts-node index.ts",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "keywords": [],
   "author": "",
@@ -22,5 +23,10 @@
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4",
     "validator": "^13.6.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "1.21.5",
+    "@graphql-codegen/typescript-resolvers": "1.19.2",
+    "@graphql-codegen/typescript": "1.22.1"
   }
 }
