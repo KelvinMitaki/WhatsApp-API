@@ -7,9 +7,10 @@ import {
 import { auth } from '../../middlewares/UserValidation'
 import { Chat, ChatDoc } from '../../models/Chat'
 import { Message } from '../../models/Message'
+import { Context } from '../../schema/schema'
 import { pubsub, SubscriptionEnum } from '../subscriptions/MessageSubscription'
 
-export const MessageMutation: MutationResolvers = {
+export const MessageMutation: MutationResolvers<Context> = {
   async addNewMessage(prt, args, { req }) {
     const id = auth(req) as string
     let chat: ChatDoc | null

@@ -1,9 +1,10 @@
 import { QueryResolvers, ResolverTypeWrapper, User as UserInterface } from '../../generated/graphql'
 import { auth } from '../../middlewares/UserValidation'
 import { User } from '../../models/User'
+import { Context } from '../../schema/schema'
 import { pubsub, SubscriptionEnum } from '../subscriptions/MessageSubscription'
 
-export const UserQuery: QueryResolvers = {
+export const UserQuery: QueryResolvers<Context> = {
   async fetchCurrentUser(prt, args, { req }) {
     const id = auth(req)
     const user = await User.findById(id).populate('groups')

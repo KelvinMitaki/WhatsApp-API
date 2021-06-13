@@ -4,9 +4,10 @@ import { auth, registerValidation } from '../../middlewares/UserValidation'
 import { Group } from '../../models/Group'
 import { GroupMsg } from '../../models/GroupMsg'
 import { User } from '../../models/User'
+import { Context } from '../../schema/schema'
 import { pubsub, SubscriptionEnum } from '../subscriptions/MessageSubscription'
 
-export const UserMutation: MutationResolvers = {
+export const UserMutation: MutationResolvers<Context> = {
   async registerUser(prt, args, ctx) {
     registerValidation(args.values)
     const existingUser = await User.findOne({ phoneNumber: args.values.phoneNumber })

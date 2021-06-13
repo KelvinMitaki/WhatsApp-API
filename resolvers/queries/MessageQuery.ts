@@ -11,8 +11,9 @@ import { auth } from '../../middlewares/UserValidation'
 import { Chat } from '../../models/Chat'
 import { GroupMsg } from '../../models/GroupMsg'
 import { Message } from '../../models/Message'
+import { Context } from '../../schema/schema'
 
-export const MessageQuery: QueryResolvers = {
+export const MessageQuery: QueryResolvers<Context> = {
   async fetchMessages(prt, args, { req }) {
     const id = auth(req)
     const skip = args.messageCount - (args.offset + args.limit)

@@ -11,8 +11,9 @@ import {
   MutationResolvers,
   ResolverTypeWrapper,
 } from '../../generated/graphql'
+import { Context } from '../../schema/schema'
 
-export const GroupMutation: MutationResolvers = {
+export const GroupMutation: MutationResolvers<Context> = {
   async addNewGroup(prt, args, { req }) {
     if (args.participants.length > 256) {
       throw new ValidationError('You cannot add more than 256 participants')

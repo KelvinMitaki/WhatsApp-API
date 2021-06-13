@@ -10,8 +10,9 @@ import {
   QueryResolvers,
   ResolverTypeWrapper,
 } from '../../generated/graphql'
+import { Context } from '../../schema/schema'
 
-export const GroupQuery: QueryResolvers = {
+export const GroupQuery: QueryResolvers<Context> = {
   async fetchGroups(prt, args, { req }) {
     const id = auth(req)
     const groups = await Group.find({ $or: [{ participants: id }, { admin: id }] })
