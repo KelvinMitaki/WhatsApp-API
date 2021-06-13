@@ -138,7 +138,7 @@ export type Mutation = {
   addNewGroupMsg?: Maybe<GroupMsg>;
   deleteMessage?: Maybe<Message>;
   deleteGroupMsg?: Maybe<GroupMsg>;
-  updateUser: User;
+  updateUser?: Maybe<User>;
   updateReadMessages: Array<Message>;
   updateGroupMessagesRead: Array<GroupMsg>;
   deleteAll: Token;
@@ -659,7 +659,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addNewGroupMsg?: Resolver<Maybe<ResolversTypes['GroupMsg']>, ParentType, ContextType, RequireFields<MutationAddNewGroupMsgArgs, 'group' | 'message'>>;
   deleteMessage?: Resolver<Maybe<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<MutationDeleteMessageArgs, 'messageID'>>;
   deleteGroupMsg?: Resolver<Maybe<ResolversTypes['GroupMsg']>, ParentType, ContextType, RequireFields<MutationDeleteGroupMsgArgs, 'messageID'>>;
-  updateUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUpdateUserArgs, never>>;
+  updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, never>>;
   updateReadMessages?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<MutationUpdateReadMessagesArgs, 'messageIDs' | 'chatID'>>;
   updateGroupMessagesRead?: Resolver<Array<ResolversTypes['GroupMsg']>, ParentType, ContextType, RequireFields<MutationUpdateGroupMessagesReadArgs, 'messageIDs' | 'groupID'>>;
   deleteAll?: Resolver<ResolversTypes['Token'], ParentType, ContextType>;
