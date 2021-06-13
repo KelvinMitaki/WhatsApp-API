@@ -3,9 +3,14 @@ import { ForbiddenError } from 'apollo-server-errors'
 import { auth } from '../../middlewares/UserValidation'
 import { Group, GroupDoc } from '../../models/Group'
 import { GroupMsg } from '../../models/GroupMsg'
-import { Resolver } from './UserQuery'
+import {
+  GroupMsg as GroupMsgInterface,
+  GroupWithParticipants,
+  QueryResolvers,
+  ResolverTypeWrapper,
+} from '../../generated/graphql'
 
-export const GroupQuery: Resolver = {
+export const GroupQuery: QueryResolvers = {
   async fetchGroups(prt, args, { req }) {
     const id = auth(req)
     const groups = await Group.find({ $or: [{ participants: id }, { admin: id }] })
@@ -19,7 +24,7 @@ export const GroupQuery: Resolver = {
       .limit(10)
     return groups
   },
-  async fetchGroup(prt, args: { groupID: string }, { req }) {
+  async fetchGroup(prt, args, { req }) {
     const id = auth(req)
     const group = await Group.findOne({ _id: args.groupID, participants: id }).populate(
       'participants'
@@ -27,13 +32,9 @@ export const GroupQuery: Resolver = {
     if (!group) {
       throw new ForbiddenError("You are not allowed to view this group's info")
     }
-    return group
+    return group as unknown as Promise<ResolverTypeWrapper<GroupWithParticipants>>
   },
-  async fetchGroupMsgs(
-    prt,
-    args: { groupID: string; offset: number; limit: number; messageCount: number },
-    { req }
-  ) {
+  async fetchGroupMsgs(prt, args, { req }) {
     const id = auth(req)
     const isParticipant = await Group.exists({
       _id: args.groupID,
@@ -46,7 +47,7 @@ export const GroupQuery: Resolver = {
     return GroupMsg.find({ group: args.groupID })
       .populate('sender')
       .skip(skip < 0 ? 0 : skip)
-      .limit(args.limit)
+      .limit(args.limit) as unknown as Promise<ResolverTypeWrapper<GroupMsgInterface>[]>
   },
   async fetchUnreadGroupMsgs(prt, args, { req }) {
     const id = auth(req)
@@ -64,7 +65,7 @@ export const GroupQuery: Resolver = {
       { $project: { group: '$_id.group', _id: 0, messageCount: 1 } },
     ])
   },
-  async fetchGroupMessageCount(prt, args: { groupID: string }, { req }) {
+  async fetchGroupMessageCount(prt, args, { req }) {
     auth(req)
     return {
       count: await GroupMsg.countDocuments({ group: args.groupID }),
