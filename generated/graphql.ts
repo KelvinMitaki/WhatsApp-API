@@ -111,6 +111,7 @@ export type Message = {
   sender: Scalars['String'];
   recipient: Scalars['String'];
   message: Scalars['String'];
+  chatID: Scalars['String'];
   read: Scalars['Boolean'];
   deleted: Scalars['Boolean'];
   received: Scalars['Boolean'];
@@ -640,6 +641,7 @@ export type MessageResolvers<ContextType = any, ParentType extends ResolversPare
   sender?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   recipient?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  chatID?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   read?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   deleted?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   received?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;

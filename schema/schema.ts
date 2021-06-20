@@ -20,6 +20,7 @@ const typeDefs = gql`
     sender: String!
     recipient: String!
     message: String!
+    chatID: String!
     read: Boolean!
     deleted: Boolean!
     received: Boolean!
