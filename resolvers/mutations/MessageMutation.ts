@@ -35,9 +35,9 @@ export const MessageMutation: MutationResolvers<Context> = {
       await chat.save();
     }
     chat = await Chat.findById(chat._id).populate('sender recipient');
-    pubsub.publish(SubscriptionEnum.ADD_NEW_CHAT, { addNewChat: chat });
     const message = Message.build({ ...args, sender: id, read: false, chatID: chat!._id });
     await message.save();
+    pubsub.publish(SubscriptionEnum.ADD_NEW_CHAT, { addNewChat: { chat, message } });
     pubsub.publish(SubscriptionEnum.ADD_NEW_MESSAGE, { addNewMessage: message });
     return message as unknown as Promise<ResolverTypeWrapper<MessageInterface>>;
   },

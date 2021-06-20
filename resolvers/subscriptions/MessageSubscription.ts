@@ -1,8 +1,8 @@
-import { PubSub, withFilter } from 'graphql-subscriptions'
-import { SubscriptionResolvers } from '../../generated/graphql'
-import { MessageDoc } from '../../models/Message'
+import { PubSub, withFilter } from 'graphql-subscriptions';
+import { ChatWithMessage, SubscriptionResolvers } from '../../generated/graphql';
+import { MessageDoc } from '../../models/Message';
 
-export const pubsub = new PubSub()
+export const pubsub = new PubSub();
 export enum SubscriptionEnum {
   ADD_NEW_MESSAGE = 'ADD_NEW_MESSAGE',
   ADD_NEW_GROUP = 'ADD_NEW_GROUP',
@@ -22,13 +22,13 @@ export const MessageSubscription: SubscriptionResolvers = {
     subscribe: withFilter(
       () => pubsub.asyncIterator(SubscriptionEnum.ADD_NEW_MESSAGE),
       (payload, variables: { sender: string; recipient: string }) => {
-        const { sender, recipient }: { [key: string]: string } = payload.addNewMessage
+        const { sender, recipient }: { [key: string]: string } = payload.addNewMessage;
         return (
           variables.sender.toString() === sender.toString() ||
           variables.recipient.toString() === sender.toString() ||
           variables.sender.toString() === recipient.toString() ||
           variables.recipient.toString() === recipient.toString()
-        )
+        );
       }
     ),
   },
@@ -36,11 +36,13 @@ export const MessageSubscription: SubscriptionResolvers = {
     subscribe: withFilter(
       () => pubsub.asyncIterator(SubscriptionEnum.ADD_NEW_CHAT),
       (payload, variables: { userID: string }) => {
-        const { sender, recipient } = payload.addNewChat
+        const {
+          chat: { sender, recipient },
+        }: ChatWithMessage = payload.addNewChat;
         return (
           variables.userID === sender._id.toString() ||
           variables.userID === recipient._id.toString()
-        )
+        );
       }
     ),
   },
@@ -48,15 +50,15 @@ export const MessageSubscription: SubscriptionResolvers = {
     subscribe: withFilter(
       () => pubsub.asyncIterator(SubscriptionEnum.UPDATE_READ_MESSAGES),
       (payload, variables: { sender: string; recipient: string }) => {
-        const { sender, recipient } = variables
-        const messages: MessageDoc[] = payload.updateReadMessages
+        const { sender, recipient } = variables;
+        const messages: MessageDoc[] = payload.updateReadMessages;
         return messages.every(
           (m) =>
             (m.sender.toString() === sender.toString() &&
               m.recipient.toString() === recipient.toString()) ||
             (m.sender.toString() === recipient.toString() &&
               m.recipient.toString() === sender.toString())
-        )
+        );
       }
     ),
   },
@@ -64,10 +66,10 @@ export const MessageSubscription: SubscriptionResolvers = {
     subscribe: withFilter(
       () => pubsub.asyncIterator(SubscriptionEnum.DELETE_MESSAGE),
       (payload, variables) => {
-        console.log({ payload })
-        console.log({ variables })
-        return true
+        console.log({ payload });
+        console.log({ variables });
+        return true;
       }
     ),
   },
-}
+};
