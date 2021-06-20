@@ -58,8 +58,10 @@ export const MessageMutation: MutationResolvers<Context> = {
     const chat = await Chat.findByIdAndUpdate(args.chatID, { unread: 0 }, { new: true })
       .sort({ updatedAt: -1 })
       .populate('sender recipient');
-    pubsub.publish(SubscriptionEnum.ADD_NEW_CHAT, { addNewChat: chat });
     const messages = await Message.find({ _id: { $in: args.messageIDs } });
+    pubsub.publish(SubscriptionEnum.ADD_NEW_CHAT, {
+      addNewChat: { chat, message: messages[messages.length - 1] },
+    });
     pubsub.publish(SubscriptionEnum.UPDATE_READ_MESSAGES, { updateReadMessages: messages });
     return messages as unknown as Promise<ResolverTypeWrapper<MessageInterface>[]>;
   },
