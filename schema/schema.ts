@@ -1,5 +1,5 @@
-import { gql } from 'apollo-server'
-import { Request, Response } from 'express'
+import { gql } from 'apollo-server';
+import { Request, Response } from 'express';
 
 const typeDefs = gql`
   type User {
@@ -126,6 +126,10 @@ const typeDefs = gql`
     messageCount: Int!
     groupID: String!
   }
+  type ChatWithMessage {
+    chat: Chat!
+    message: Message!
+  }
   input RegisterUserInput {
     name: String!
     about: String!
@@ -171,7 +175,7 @@ const typeDefs = gql`
   type Subscription {
     addNewMessage(sender: String!, recipient: String!): Message!
     addNewGroup(userID: String!): Group!
-    addNewChat(userID: String!): Chat!
+    addNewChat(userID: String!): ChatWithMessage!
     addNewGroupMsg(groupID: String!): GroupMsg!
     deleteMessage: Message!
     deleteGroupMsg: GroupMsg!
@@ -180,9 +184,9 @@ const typeDefs = gql`
     updateUserOnline: UserOnline!
     updateReadMessages(sender: String!, recipient: String!): [Message!]!
   }
-`
-export default typeDefs
+`;
+export default typeDefs;
 export interface Context {
-  req: Request
-  res: Response
+  req: Request;
+  res: Response;
 }

@@ -33,6 +33,12 @@ export type Chat = {
   updatedAt: Scalars['String'];
 };
 
+export type ChatWithMessage = {
+  __typename?: 'ChatWithMessage';
+  chat: Chat;
+  message: Message;
+};
+
 export type Count = {
   __typename?: 'Count';
   count: Scalars['Int'];
@@ -308,7 +314,7 @@ export type Subscription = {
   __typename?: 'Subscription';
   addNewMessage: Message;
   addNewGroup: Group;
-  addNewChat: Chat;
+  addNewChat: ChatWithMessage;
   addNewGroupMsg: GroupMsg;
   deleteMessage: Message;
   deleteGroupMsg: GroupMsg;
@@ -483,6 +489,7 @@ export type ResolversTypes = {
   Chat: ResolverTypeWrapper<Chat>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
+  ChatWithMessage: ResolverTypeWrapper<ChatWithMessage>;
   Count: ResolverTypeWrapper<Count>;
   Group: ResolverTypeWrapper<Group>;
   GroupMessageCount: ResolverTypeWrapper<GroupMessageCount>;
@@ -513,6 +520,7 @@ export type ResolversParentTypes = {
   Chat: Chat;
   String: Scalars['String'];
   Int: Scalars['Int'];
+  ChatWithMessage: ChatWithMessage;
   Count: Count;
   Group: Group;
   GroupMessageCount: GroupMessageCount;
@@ -552,6 +560,12 @@ export type ChatResolvers<ContextType = any, ParentType extends ResolversParentT
   unread?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ChatWithMessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['ChatWithMessage'] = ResolversParentTypes['ChatWithMessage']> = {
+  chat?: Resolver<ResolversTypes['Chat'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['Message'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -696,7 +710,7 @@ export type StarredMsgsResolvers<ContextType = any, ParentType extends Resolvers
 export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
   addNewMessage?: SubscriptionResolver<ResolversTypes['Message'], "addNewMessage", ParentType, ContextType, RequireFields<SubscriptionAddNewMessageArgs, 'sender' | 'recipient'>>;
   addNewGroup?: SubscriptionResolver<ResolversTypes['Group'], "addNewGroup", ParentType, ContextType, RequireFields<SubscriptionAddNewGroupArgs, 'userID'>>;
-  addNewChat?: SubscriptionResolver<ResolversTypes['Chat'], "addNewChat", ParentType, ContextType, RequireFields<SubscriptionAddNewChatArgs, 'userID'>>;
+  addNewChat?: SubscriptionResolver<ResolversTypes['ChatWithMessage'], "addNewChat", ParentType, ContextType, RequireFields<SubscriptionAddNewChatArgs, 'userID'>>;
   addNewGroupMsg?: SubscriptionResolver<ResolversTypes['GroupMsg'], "addNewGroupMsg", ParentType, ContextType, RequireFields<SubscriptionAddNewGroupMsgArgs, 'groupID'>>;
   deleteMessage?: SubscriptionResolver<ResolversTypes['Message'], "deleteMessage", ParentType, ContextType>;
   deleteGroupMsg?: SubscriptionResolver<ResolversTypes['GroupMsg'], "deleteGroupMsg", ParentType, ContextType>;
@@ -757,6 +771,7 @@ export type UserTypingResolvers<ContextType = any, ParentType extends ResolversP
 
 export type Resolvers<ContextType = any> = {
   Chat?: ChatResolvers<ContextType>;
+  ChatWithMessage?: ChatWithMessageResolvers<ContextType>;
   Count?: CountResolvers<ContextType>;
   Group?: GroupResolvers<ContextType>;
   GroupMessageCount?: GroupMessageCountResolvers<ContextType>;
