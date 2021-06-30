@@ -116,9 +116,6 @@ const typeDefs = gql`
   type Token {
     token: String!
   }
-  type Count {
-    count: Int!
-  }
   type MessageCount {
     messageCount: Int!
     chatID: String!
@@ -145,7 +142,6 @@ const typeDefs = gql`
     fetchGroups: [Group!]!
     fetchGroup(groupID: String!): GroupWithParticipants!
     fetchMessages(recipient: String!, offset: Int!, limit: Int!, messageCount: Int!): [Message!]!
-    fetchGroupMessageCount(groupID: String!): Count!
     fetchGroupMsgs(groupID: String!, offset: Int!, limit: Int!, messageCount: Int!): [GroupMsg!]!
     fetchUnreadGroupMsgs: [UnreadGroupMsg!]!
     fetchChats: [Chat!]!

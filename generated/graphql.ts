@@ -39,11 +39,6 @@ export type ChatWithMessage = {
   message: Message;
 };
 
-export type Count = {
-  __typename?: 'Count';
-  count: Scalars['Int'];
-};
-
 export type Group = {
   __typename?: 'Group';
   _id: Scalars['String'];
@@ -255,7 +250,6 @@ export type Query = {
   fetchGroups: Array<Group>;
   fetchGroup: GroupWithParticipants;
   fetchMessages: Array<Message>;
-  fetchGroupMessageCount: Count;
   fetchGroupMsgs: Array<GroupMsg>;
   fetchUnreadGroupMsgs: Array<UnreadGroupMsg>;
   fetchChats: Array<Chat>;
@@ -276,11 +270,6 @@ export type QueryFetchMessagesArgs = {
   offset: Scalars['Int'];
   limit: Scalars['Int'];
   messageCount: Scalars['Int'];
-};
-
-
-export type QueryFetchGroupMessageCountArgs = {
-  groupID: Scalars['String'];
 };
 
 
@@ -491,7 +480,6 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   ChatWithMessage: ResolverTypeWrapper<ChatWithMessage>;
-  Count: ResolverTypeWrapper<Count>;
   Group: ResolverTypeWrapper<Group>;
   GroupMessageCount: ResolverTypeWrapper<GroupMessageCount>;
   GroupMsg: ResolverTypeWrapper<GroupMsg>;
@@ -522,7 +510,6 @@ export type ResolversParentTypes = {
   String: Scalars['String'];
   Int: Scalars['Int'];
   ChatWithMessage: ChatWithMessage;
-  Count: Count;
   Group: Group;
   GroupMessageCount: GroupMessageCount;
   GroupMsg: GroupMsg;
@@ -567,11 +554,6 @@ export type ChatResolvers<ContextType = any, ParentType extends ResolversParentT
 export type ChatWithMessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['ChatWithMessage'] = ResolversParentTypes['ChatWithMessage']> = {
   chat?: Resolver<ResolversTypes['Chat'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['Message'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type CountResolvers<ContextType = any, ParentType extends ResolversParentTypes['Count'] = ResolversParentTypes['Count']> = {
-  count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -693,7 +675,6 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   fetchGroups?: Resolver<Array<ResolversTypes['Group']>, ParentType, ContextType>;
   fetchGroup?: Resolver<ResolversTypes['GroupWithParticipants'], ParentType, ContextType, RequireFields<QueryFetchGroupArgs, 'groupID'>>;
   fetchMessages?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<QueryFetchMessagesArgs, 'recipient' | 'offset' | 'limit' | 'messageCount'>>;
-  fetchGroupMessageCount?: Resolver<ResolversTypes['Count'], ParentType, ContextType, RequireFields<QueryFetchGroupMessageCountArgs, 'groupID'>>;
   fetchGroupMsgs?: Resolver<Array<ResolversTypes['GroupMsg']>, ParentType, ContextType, RequireFields<QueryFetchGroupMsgsArgs, 'groupID' | 'offset' | 'limit' | 'messageCount'>>;
   fetchUnreadGroupMsgs?: Resolver<Array<ResolversTypes['UnreadGroupMsg']>, ParentType, ContextType>;
   fetchChats?: Resolver<Array<ResolversTypes['Chat']>, ParentType, ContextType>;
@@ -774,7 +755,6 @@ export type UserTypingResolvers<ContextType = any, ParentType extends ResolversP
 export type Resolvers<ContextType = any> = {
   Chat?: ChatResolvers<ContextType>;
   ChatWithMessage?: ChatWithMessageResolvers<ContextType>;
-  Count?: CountResolvers<ContextType>;
   Group?: GroupResolvers<ContextType>;
   GroupMessageCount?: GroupMessageCountResolvers<ContextType>;
   GroupMsg?: GroupMsgResolvers<ContextType>;
